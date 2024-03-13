@@ -64,31 +64,4 @@ class ReservationStatusViewModel extends ChangeNotifier {
     cancelListController.reset();
     notifyListeners();
   }
-
-  void cancelReservationStatus(
-    BuildContext context,
-  ) async {
-    final List<ReservationStatusEntity> cancelList = [];
-
-    for (int entityId in cancelListController.cancelIdList) {
-      for (ReservationStatusEntity entity in reservationStatusList) {
-        if (entity.reservationId == entityId) {
-          cancelList.add(entity);
-        }
-      }
-    }
-    if (cancelList.isEmpty) return;
-
-    await showDialog(
-      context: context,
-      builder: (context) => ReservationCancelDialog(
-        entities: cancelList,
-        onPressed: (e) => ref
-            .read(reservationStatusServiceProvider.notifier)
-            .cancelReservation(entities: cancelList),
-      ),
-    );
-
-    cancelListController.reset();
-  }
 }

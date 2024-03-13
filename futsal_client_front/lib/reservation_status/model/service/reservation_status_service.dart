@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_client_front/common/state/state.dart';
 import 'package:flutter_client_front/common/utils/date_utils.dart';
-import 'package:flutter_client_front/reservation_status/model/entity/reservation_cancel_entity.dart';
 import 'package:flutter_client_front/reservation_status/model/entity/reservation_entity.dart';
 import 'package:flutter_client_front/reservation_status/model/repository/reservation_status_repository.dart';
 import 'package:flutter_client_front/reservation_status/model/state/reservation_list_state.dart';
@@ -69,36 +68,6 @@ class ReservationStatusService
       state = ReservationStatusListStateError("서버에서 예약 정보를 가져올 수 없습니다.");
     } catch (e) {
       state = ReservationStatusListStateError("알 수 없는 에러가 발생했습니다.");
-    }
-  }
-
-  // 예약삭제
-  Future cancelReservation({
-    required List<ReservationStatusEntity> entities,
-  }) async {
-    try {
-      state = ReservationStatusListStateLoading();
-      final timeList = entities.map((e) => e.time).toList();
-      final entity = ReservationCancelEntity(
-        date: regDateFormat.format(entities.first.date),
-        isPre: false,
-        times: timeList,
-      );
-
-      await repository.cancelReservation(entity);
-      await getReservationStatusList(date: entities[0].date);
-    } catch (e) {
-      state = ReservationStatusListStateError(e.toString());
-    }
-  }
-
-  Future cancelAllReservation() async {
-    try {
-      state = ReservationStatusListStateLoading();
-//      await repository.cancelAllReservation();
-      state = ReservationStatusListStateSuccess([]);
-    } catch (e) {
-      state = ReservationStatusListStateError(e.toString());
     }
   }
 }
