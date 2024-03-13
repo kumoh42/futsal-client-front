@@ -18,7 +18,6 @@ abstract class ReservationStatusRepository {
       _ReservationStatusRepository;
 
   @GET('/reservation/{date}')
-  @Headers({'accessToken': 'true'})
   Future<List<ReservationStatusEntity>> getReservationStatusList(
     @Path() String date,
     @Query("state") String state,

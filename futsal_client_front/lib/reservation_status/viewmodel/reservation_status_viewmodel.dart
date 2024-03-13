@@ -3,11 +3,9 @@ import 'package:flutter_client_front/common/state/state.dart';
 import 'package:flutter_client_front/common/utils/date_utils.dart';
 import 'package:flutter_client_front/common/utils/snack_bar_util.dart';
 import 'package:flutter_client_front/reservation_status/component/custom_table_calendar.dart';
-import 'package:flutter_client_front/reservation_status/component/dialog/calendar_select_dialog.dart';
 import 'package:flutter_client_front/reservation_status/component/reservation_cancel_dialog.dart';
 import 'package:flutter_client_front/reservation_status/component/reservation_state/reservation_state_list.dart';
 import 'package:flutter_client_front/reservation_status/model/entity/reservation_entity.dart';
-import 'package:flutter_client_front/reservation_status/model/service/pre_reservation/pre_reservation_setting_service.dart';
 import 'package:flutter_client_front/reservation_status/model/service/reservation_status_service.dart';
 import 'package:flutter_client_front/reservation_status/model/state/reservation_list_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,68 +52,6 @@ class ReservationStatusViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-  }
-
-  void blockReservation(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: (context) => CalendarSelectDialog(
-        onPressed: (controller, startTime, endTime) async {
-          final startDate = controller.startDay == null
-              ? defaultDateFormat.format(controller.selectedDay)
-              : controller.startDay.toString().split(" ")[0];
-          final endDate = controller.endDay == null
-              ? startDate
-              : controller.endDay.toString().split(" ")[0];
-          if (startDate == endDate) {
-            if (startTime.substring(0, 2).compareTo(endTime.substring(0, 2)) >=
-                0) {
-              SnackBarUtil.showError("시작 시간이 종료 시간보다 빨라야 합니다.");
-              return;
-            }
-          }
-          DateTime dateTimeNow = DateTime.now();
-          String now = defaultDateFormat.format(dateTimeNow);
-          if (now.compareTo(startDate) > 0 || now.compareTo(endDate) > 0) {
-            SnackBarUtil.showError("이미 지난 기간은 기간 설정이 불가능합니다.");
-            return;
-          }
-          if (statusState is ReservationStatusListStateNone) {
-            SnackBarUtil.showError("해당 기간에 예약이 열려있지 않습니다.");
-            return;
-          }
-
-          await ref
-              .read(preReservationSettingServiceProvider.notifier)
-              .blockReservation(
-                start: '${startDate}T${startTime.substring(0, 2)}',
-                end: '${endDate}T${endTime.substring(0, 2)}',
-              );
-          getReservationStatusList(force: true);
-          if (context.mounted) Navigator.of(context).pop();
-        },
-        controller: blockReservationController,
-        endTimes: const [
-          "10시",
-          "12시",
-          "14시",
-          "16시",
-          "18시",
-          "20시",
-          "22시",
-        ],
-        startTimes: const [
-          "08시",
-          "10시",
-          "12시",
-          "14시",
-          "16시",
-          "18시",
-          "20시",
-        ],
-        title: "예약 불가 기간 설정",
-      ),
-    );
   }
 
   void getReservationStatusList({bool force = false}) async {
