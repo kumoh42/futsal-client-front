@@ -83,22 +83,11 @@ class ReservationStateItem2 extends StatelessWidget {
                           : type.contents,
                     ),
                   ),
-                  if (entity.major != null)
+                  if (type == ReservationType.able)
                     Transform.scale(
                       scale: ResponsiveSize.S(1.3),
-                      child: Checkbox(
-                        value: isChecked,
-                        onChanged: onPressed,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
-                        side: MaterialStateBorderSide.resolveWith(
-                          (states) => const BorderSide(
-                            width: 1.0,
-                            color: kTextReverseColor,
-                          ),
-                        ),
-                      ),
+                      child: ElevatedButton(
+                          onPressed: () {}, child: const Text("예약하기")),
                     ),
                   SizedBox(width: kPaddingLargeSize),
                 ],

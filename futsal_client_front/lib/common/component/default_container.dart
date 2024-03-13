@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_client_front/auth/view/login_view.dart';
+import 'package:flutter_client_front/common/component/container/responsive_container.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
@@ -101,35 +103,39 @@ class _DefaultLayoutAppBar extends StatelessWidget
       child: Center(
         child: _DefaultLayoutContainer(
           height: appbarHeight,
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            centerTitle: false,
-            backgroundColor: color,
-            titleSpacing: 0,
-            leading: Transform.translate(
-              offset: Offset(-7.5.w, 3.w),
-              child: Image.asset(
-                'assets/image/black_logo.png',
-                fit: BoxFit.fitHeight,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Transform.translate(
+                    offset: Offset(-7.5.w, 3.w),
+                    child: Image.asset(
+                      'assets/image/black_logo.png',
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  ResponsiveSizedBox(size: kPaddingSmallSize),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: kPaddingSmallSize / 2,
+                    ),
+                    child: Text(
+                      title,
+                      style: kTextMainStyle.copyWith(fontSize: kTextTitleSize),
+                      textAlign:
+                          ResponsiveData.kIsMobile ? TextAlign.center : null,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            elevation: 0,
-            title: Text(
-              title,
-              style: kTextMainStyle.copyWith(fontSize: kTextTitleSize),
-              textAlign: ResponsiveData.kIsMobile ? TextAlign.center : null,
-            ),
-            actions: ResponsiveData.kIsMobile
-                ? [
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      splashRadius: kIconLargeSize / 2,
-                      onPressed: () => Scaffold.of(context).openEndDrawer(),
-                      icon: Icon(Icons.menu, size: kIconLargeSize),
-                    )
-                  ]
-                : actions?.expand(_addPadding).toList(),
-            foregroundColor: Colors.black,
+              IconButton(
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LoginView(),
+                      )),
+                  icon: const Icon(Icons.login)),
+            ],
           ),
         ),
       ),
