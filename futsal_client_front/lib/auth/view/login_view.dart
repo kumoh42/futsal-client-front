@@ -9,7 +9,6 @@ import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
 import 'package:flutter_client_front/common/utils/validation_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   static String get routeName => 'login';

@@ -1,8 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_client_front/auth/model/service/auth_service.dart';
 import 'package:flutter_client_front/auth/model/state/auth_state.dart';
-import 'package:flutter_client_front/auth/provider/auth_provider.dart';
 import 'package:flutter_client_front/auth/view/login_view.dart';
 import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/component/container/responsive_container.dart';
