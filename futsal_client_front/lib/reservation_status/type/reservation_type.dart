@@ -24,7 +24,7 @@ extension ReservationTypeData on ReservationType {
       case ReservationType.able:
         return kAbleColor;
       case ReservationType.disable:
-        return kPointColor;
+        return kMainColor;
       case ReservationType.reserved:
         return kMainColor;
     }
@@ -59,18 +59,18 @@ extension ReservationTypeData on ReservationType {
         return Text(
           "예약 가능",
           style: kTextNormalStyle.copyWith(
-            fontSize: kTextMiddleSize,
+            fontSize: kTextLargeSize,
             color: kTextReverseColor,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w900,
           ),
         );
       case ReservationType.disable:
         return Text(
           "예약 불가능",
           style: kTextNormalStyle.copyWith(
-            fontSize: kTextMiddleSize,
+            fontSize: kTextLargeSize,
             color: kTextReverseColor,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w900,
           ),
         );
       case ReservationType.reserved:
