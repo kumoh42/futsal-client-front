@@ -29,6 +29,7 @@ String? validateEmail(String? value) {
 }
 
 String? validateId(String? value) {
+  print('유효성');
   if (value == null) return null;
   if (value.isEmpty) {
     return "값을 입력해 주세요.";
@@ -41,6 +42,30 @@ String? validateMessage(String? value) {
   if (value == null) return null;
   if (value.isEmpty) {
     return "값을 입력해 주세요.";
+  } else {
+    return null;
+  }
+}
+
+String? validateNumeric(String? value) {
+  print('유효성');
+  if (value == null) return null;
+  if (value.isEmpty) {
+    print('값 입력');
+    return "값을 입력해 주세요.";
+  } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) { print('숫자만 입력');
+    return "숫자만 입력해 주세요.";
+  } else {
+    return null;
+  }
+}
+
+String? validatePhoneNumber(String? value) {
+  if (value == null) return null;
+  if (value.isEmpty) {
+    return "값을 입력해 주세요.";
+  } else if (!RegExp(r'^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$').hasMatch(value)) {
+    return "올바른 전화번호 형식이 아닙니다. (예: 010-1234-5678)";
   } else {
     return null;
   }
