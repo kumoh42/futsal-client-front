@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
-import 'package:flutter_client_front/common/styles/text_styles.dart';
 import 'package:flutter_client_front/signup/controller/member_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomDropDownButtonFormField extends StatelessWidget {
+import '../styles/text_styles.dart';
+
+class CustomDropDownButtonFormField extends StatefulWidget {
   final String labelText;
   final String? hintText;
   final IconData? prefixIcon;
-  final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final TextStyle? textStyle;
@@ -20,22 +19,37 @@ class CustomDropDownButtonFormField extends StatelessWidget {
   final MemberController memberController;
   final int value;
 
-  CustomDropDownButtonFormField(
-      {Key? key,
-      required this.labelText,
-      this.hintText,
-      this.prefixIcon,
-      this.keyboardType = TextInputType.text,
-      this.validator,
-      this.controller,
-      this.textStyle,
-      double? contentPadding,
-      this.backgroundColor,
-      this.list,
-      required this.memberController,
-      required this.value})
-      : super(key: key) {
-    this.contentPadding = contentPadding ?? kWPaddingMiddleSize;
+  CustomDropDownButtonFormField({
+    Key? key,
+    required this.labelText,
+    this.hintText,
+    this.prefixIcon,
+    this.validator,
+    this.controller,
+    this.textStyle,
+    double? contentPadding,
+    this.backgroundColor,
+    this.list,
+    required this.memberController,
+    required this.value,
+  })   : contentPadding = contentPadding ?? kWPaddingMiddleSize,
+        super(key: key);
+
+  @override
+  _CustomDropDownButtonFormFieldState createState() =>
+      _CustomDropDownButtonFormFieldState();
+}
+
+class _CustomDropDownButtonFormFieldState
+    extends State<CustomDropDownButtonFormField> {
+  String? _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.value == 1
+        ? widget.memberController.selectedMajor
+        : widget.memberController.selectedCircle;
   }
 
   @override
@@ -45,62 +59,71 @@ class CustomDropDownButtonFormField extends StatelessWidget {
         : kWTextMiddleSize;
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor ?? kBackgroundMainColor,
+        color: widget.backgroundColor ?? kBackgroundMainColor,
       ),
       child: Row(
-        // 가로로 배치하기 위해 Row 위젯 사용
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (prefixIcon != null)
+          if (widget.prefixIcon != null)
             Icon(
-              prefixIcon,
+              widget.prefixIcon,
               size: kWIconSmallSize,
               color: kSubColor,
             ),
-          if (prefixIcon != null) const SizedBox(width: kWPaddingSmallSize),
+          if (widget.prefixIcon != null)
+            const SizedBox(width: kWPaddingSmallSize),
           Container(
-            // label text를 컨테이너로 감싸서 가운데 정렬
-            width: 130, // label text의 고정된 너비
+            width: 130,
             child: Text(
-              labelText!,
+              widget.labelText,
               style: kTextMainStyle.copyWith(fontSize: fontSize),
             ),
           ),
-          SizedBox(width: contentPadding),
+          SizedBox(width: widget.contentPadding),
           Expanded(
             child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                hintText: hintText,
+                hintText: widget.hintText,
                 isDense: true,
-                // TextFormField와 같이 밀집된 모양으로 만들기 위해 추가
-                contentPadding: EdgeInsets.only(bottom: contentPadding),
-                // TextFormField와 같은 패딩 설정
-                border:
-                    UnderlineInputBorder(borderSide: BorderSide(width: 1.0.w)),
-                // TextFormField와 같은 border 설정
-                hintStyle: textStyle?.copyWith(
-                      color: kTextMainColor.withOpacity(0.5),
-                    ) ??
+                contentPadding: EdgeInsets.only(bottom: widget.contentPadding),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(width: 1.0.w),
+                ),
+                hintStyle: widget.textStyle?.copyWith(
+                  color: kTextMainColor.withOpacity(0.5),
+                ) ??
                     kTextMainStyle.copyWith(
                       fontSize: fontSize,
                       color: kTextMainColor.withOpacity(0.5),
                     ),
-                // TextFormField와 같은 hintStyle 설정
                 filled: true,
-                // TextFormField와 같이 배경색 채우기
-                fillColor: backgroundColor ??
-                    kBackgroundMainColor, // TextFormField와 같은 배경색 설정
+                fillColor: widget.backgroundColor ?? kBackgroundMainColor,
+                errorStyle: kTextMainStyle.copyWith(
+                  color: kPointColor, // 에러 텍스트의 색상을 설정
+                ),
               ),
-              value: value == 1 ? memberController.selectedMajor : memberController.selectedCircle,
+              value: _selectedValue,
               onChanged: (String? newValue) {
-                value == 1 ? memberController.selectedMajor = newValue!: memberController.selectedCircle = newValue!;
+                setState(() {
+                  _selectedValue = newValue;
+                  widget.value == 1
+                      ? widget.memberController.selectedMajor = newValue
+                      : widget.memberController.selectedCircle = newValue;
+                });
               },
-              items: list?.keys.map<DropdownMenuItem<String>>((String value) {
+              items: widget.list?.keys
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
                 );
               }).toList(),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '값을 선택해주세요.';
+                }
+                return null;
+              },
             ),
           ),
         ],

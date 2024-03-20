@@ -20,6 +20,8 @@ class SignupView extends ConsumerStatefulWidget {
 }
 
 class _SignupViewState extends ConsumerState<SignupView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final memberController = ref.watch(memberControllerProvider);
@@ -35,11 +37,11 @@ class _SignupViewState extends ConsumerState<SignupView> {
               ),
               constraints: ResponsiveData.kIsMobile
                   ? BoxConstraints(
-                      maxWidth: ResponsiveSize.M(750),
-                      //maxHeight: ResponsiveSize.M(750),
-                    )
+                maxWidth: ResponsiveSize.M(750),
+                //maxHeight: ResponsiveSize.M(750),
+              )
                   : const BoxConstraints(
-                      maxWidth: 550, maxHeight: double.infinity),
+                  maxWidth: 550, maxHeight: double.infinity),
               child: Padding(
                 padding: EdgeInsets.all(
                   ResponsiveData.kIsMobile
@@ -47,7 +49,7 @@ class _SignupViewState extends ConsumerState<SignupView> {
                       : kWPaddingXLargeSize,
                 ).copyWith(top: 0),
                 child: Form(
-                  //key: ,
+                  key: _formKey, // GlobalKey 설정
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -80,7 +82,12 @@ class _SignupViewState extends ConsumerState<SignupView> {
                         hintText: '비밀번호를 다시 입력해주세요',
                         keyboardType: TextInputType.visiblePassword,
                         controller: memberController.passwordCheckTextController,
-                        validator: validatePassword,
+                        validator: (value) {
+                          if (value != memberController.passwordTextController.text) {
+                            return "비밀번호가 일치하지 않습니다.";
+                          }
+                          return null;
+                        }
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
                       CustomDropDownButtonFormField(memberController: memberController,
@@ -98,9 +105,9 @@ class _SignupViewState extends ConsumerState<SignupView> {
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
                       CustomDropDownButtonFormField(memberController: memberController,
-                      labelText: "동아리",
-                      hintText: "동아리를 선택하세요",
-                      list: circleListWithId,
+                        labelText: "동아리",
+                        hintText: "동아리를 선택하세요",
+                        list: circleListWithId,
                         value: 2,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
@@ -112,7 +119,11 @@ class _SignupViewState extends ConsumerState<SignupView> {
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
                       ElevatedButton(
-                        onPressed: memberController.signup,
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            memberController.signup();
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kMainColor,
                           minimumSize: Size(
