@@ -3,7 +3,6 @@ import 'package:flutter_client_front/common/component/custum_dropdownbutton_form
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/signup/controller/member_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../common/component/custom_text_form_field.dart';
 import '../../common/component/custom_text_form_field_signup.dart';
 import '../../common/styles/sizes.dart';
 import '../../common/styles/text_styles.dart';

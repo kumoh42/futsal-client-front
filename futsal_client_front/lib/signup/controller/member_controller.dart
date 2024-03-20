@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_client_front/auth/model/repository/auth_repository.dart';
-import 'package:flutter_client_front/auth/provider/auth_provider.dart';
 import 'package:flutter_client_front/signup/model/entity/member_entity.dart';
 import 'package:flutter_client_front/signup/model/repository/member_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../common/utils/information_utils.dart';
 
 final memberControllerProvider =
     ChangeNotifierProvider((ref) {
       final memberRepository = ref.watch(memberRepositoryProvider);
-      return MemberController(memberRepository, ref);
+      return MemberController(memberRepository);
     });
 
 class MemberController extends ChangeNotifier{
@@ -23,18 +20,16 @@ class MemberController extends ChangeNotifier{
   final studentNumTextController = TextEditingController();
   final phoneTextController = TextEditingController();
 
-  final MemberRepository _memberRepository; // MemberRepository 인스턴스 필드 추가
-  final Ref ref;
+  final MemberRepository _memberRepository;
 
-  MemberController(this._memberRepository, this.ref){
+  MemberController(this._memberRepository){
     notifyListeners();
   }
 
   Future<void> signup() async {
     notifyListeners();
     try {
-      // MemberEntity 생성
-      MemberEntity member = MemberEntity(
+        MemberEntity member = MemberEntity(
         name: nameTextController.text,
         id: idTextController.text,
         password: passwordTextController.text,
