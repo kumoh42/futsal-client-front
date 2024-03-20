@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_client_front/common/component/custum_dropdownbutton_form_feld.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
+import 'package:flutter_client_front/signup/controller/member_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../common/component/custom_text_form_field.dart';
 import '../../common/component/custom_text_form_field_signup.dart';
 import '../../common/styles/sizes.dart';
 import '../../common/styles/text_styles.dart';
 import '../../common/utils/information_utils.dart';
 import '../../common/utils/validation_util.dart';
-import '../viewmodel/signup_viewmodel.dart';
 
 class SignupView extends ConsumerStatefulWidget {
   static String get routName => 'signup';
@@ -21,7 +22,7 @@ class SignupView extends ConsumerStatefulWidget {
 class _SignupViewState extends ConsumerState<SignupView> {
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(signupViewModelProvider);
+    final memberController = ref.watch(memberControllerProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -50,19 +51,19 @@ class _SignupViewState extends ConsumerState<SignupView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _SignupTitle(),
+                      const _SignupTitle(),
                       const SizedBox(height: kWPaddingLargeSize),
                       CustomTextFormFieldSignup(
                         labelText: "이름",
                         hintText: '이름을 입력해주세요',
-                        controller: viewModel.nameTextController,
-                        //validator: validateId,
+                        controller: memberController.nameTextController,
+                        validator: validateMessage,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
                       CustomTextFormFieldSignup(
                         labelText: "아이디",
                         hintText: '아이디를 입력해주세요',
-                        controller: viewModel.idTextController,
+                        controller: memberController.idTextController,
                         validator: validateId,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
@@ -70,7 +71,7 @@ class _SignupViewState extends ConsumerState<SignupView> {
                         labelText: "비밀번호",
                         hintText: '비밀번호를 입력해주세요',
                         keyboardType: TextInputType.visiblePassword,
-                        controller: viewModel.passwordTextController,
+                        controller: memberController.passwordTextController,
                         validator: validatePassword,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
@@ -78,11 +79,11 @@ class _SignupViewState extends ConsumerState<SignupView> {
                         labelText: "비밀번호 확인",
                         hintText: '비밀번호를 다시 입력해주세요',
                         keyboardType: TextInputType.visiblePassword,
-                        controller: viewModel.passwordCheckTextController,
+                        controller: memberController.passwordCheckTextController,
                         validator: validatePassword,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
-                      CustomDropDownButtonFormField(viewModel: viewModel,
+                      CustomDropDownButtonFormField(memberController: memberController,
                         labelText: "전공",
                         hintText: "전공을 선택하세요",
                         list: majorListWithId,
@@ -92,11 +93,11 @@ class _SignupViewState extends ConsumerState<SignupView> {
                       CustomTextFormFieldSignup(
                         labelText: "학번",
                         hintText: '학번을 입력하세요',
-                        controller: viewModel.studentNumTextController,
-                        //validator: validateId,
+                        controller: memberController.studentNumTextController,
+                        validator: validateNumeric,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
-                      CustomDropDownButtonFormField(viewModel: viewModel,
+                      CustomDropDownButtonFormField(memberController: memberController,
                       labelText: "동아리",
                       hintText: "동아리를 선택하세요",
                       list: circleListWithId,
@@ -105,13 +106,13 @@ class _SignupViewState extends ConsumerState<SignupView> {
                       const SizedBox(height: kWPaddingXLargeSize),
                       CustomTextFormFieldSignup(
                         labelText: "전화번호",
-                        hintText: '-없이 입력하세요',
-                        controller: viewModel.phoneTextController,
-                        //validator: validateId,
+                        hintText: '-포함하여 입력하세요',
+                        controller: memberController.phoneTextController,
+                        validator: validatePhoneNumber,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
                       ElevatedButton(
-                        onPressed: viewModel.signup,
+                        onPressed: memberController.signup,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kMainColor,
                           minimumSize: Size(

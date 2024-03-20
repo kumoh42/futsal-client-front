@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
+import 'package:flutter_client_front/signup/controller/member_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../signup/viewmodel/signup_viewmodel.dart';
 
 class CustomDropDownButtonFormField extends StatelessWidget {
   final String labelText;
@@ -18,7 +17,7 @@ class CustomDropDownButtonFormField extends StatelessWidget {
   late final double contentPadding;
   final Color? backgroundColor;
   final Map<String, int>? list;
-  final SignupViewModel viewModel;
+  final MemberController memberController;
   final int value;
 
   CustomDropDownButtonFormField(
@@ -33,7 +32,7 @@ class CustomDropDownButtonFormField extends StatelessWidget {
       double? contentPadding,
       this.backgroundColor,
       this.list,
-      required this.viewModel,
+      required this.memberController,
       required this.value})
       : super(key: key) {
     this.contentPadding = contentPadding ?? kWPaddingMiddleSize;
@@ -92,9 +91,9 @@ class CustomDropDownButtonFormField extends StatelessWidget {
                 fillColor: backgroundColor ??
                     kBackgroundMainColor, // TextFormField와 같은 배경색 설정
               ),
-              value: value == 1 ? viewModel.selectedMajor : viewModel.selectedCircle,
+              value: value == 1 ? memberController.selectedMajor : memberController.selectedCircle,
               onChanged: (String? newValue) {
-                value == 1 ? viewModel.selectedMajor = newValue!: viewModel.selectedCircle = newValue!;
+                value == 1 ? memberController.selectedMajor = newValue!: memberController.selectedCircle = newValue!;
               },
               items: list?.keys.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(

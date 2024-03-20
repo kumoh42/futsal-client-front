@@ -8,7 +8,6 @@ import '../../../common/dio/dio.dart';
 part 'member_repository.g.dart';
 
 final memberRepositoryProvider = Provider((ref) {
-  print('repository');
   final dio = ref.watch(dioProvider);
      return MemberRepository(dio);
 });
@@ -17,10 +16,9 @@ final memberRepositoryProvider = Provider((ref) {
 abstract class MemberRepository {
   factory MemberRepository(Dio dio, {String baseUrl}) = _MemberRepository;
 
-  @POST('/signup')
-  Future signup(@Body() MemberEntity memberEntity);
+  @POST('/user')
+  Future<void> signup(
+      @Body() MemberEntity memberEntity
+      );
 
 }
-
-
-//repository랑 riverpod강의 듣기

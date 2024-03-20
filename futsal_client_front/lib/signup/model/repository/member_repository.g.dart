@@ -19,26 +19,26 @@ class _MemberRepository implements MemberRepository {
   String? baseUrl;
 
   @override
-  Future<dynamic> signup(MemberEntity memberEntity) async {
+  Future<void> signup(MemberEntity memberEntity) async {
+    print(memberEntity.toJson());
+
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(memberEntity.toJson());
-    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+    await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/signup',
+          '/user',
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
-    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
