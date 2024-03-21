@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_client_front/auth/model/state/auth_state.dart';
+import 'package:flutter_client_front/auth/view/login_view.dart';
 import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/component/container/responsive_container.dart';
 import 'package:flutter_client_front/common/component/container/stack_container.dart';
@@ -111,10 +113,43 @@ class ReservationStatusView extends ConsumerWidget {
                   ],
                 ),
               if (loginViewModel.state is! AuthStateSuccess)
-                Text(
-                  "풋살장 예약을 하려면 로그인이 필요합니다!",
-                  style: kTextMainStyle.copyWith(
-                    fontSize: kTextLargeSize,
+                Text.rich(
+                  TextSpan(
+                    text: '풋살장 예약을 하려면 ',
+                    style: kTextMainStyle.copyWith(
+                      fontSize: kTextLargeSize,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '로그인',
+                        style: const TextStyle(
+                          color: kMainColor, // 로그인 텍스트의 색상 변경
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const Dialog(
+                                  surfaceTintColor: Colors.transparent,
+                                  backgroundColor: kBackgroundMainColor,
+                                  child: SizedBox(
+                                    width: 500,
+                                    height: 500,
+                                    child: LoginView(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                      ),
+                      TextSpan(
+                        text: '이 필요합니다!',
+                        style: kTextMainStyle.copyWith(
+                          fontSize: kTextLargeSize,
+                        ),
+                      ),
+                    ],
                   ),
                   textAlign: TextAlign.center,
                 ),

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_client_front/auth/model/state/auth_state.dart';
+import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
+import 'package:flutter_client_front/common/utils/date_utils.dart';
+import 'package:flutter_client_front/reservation_status/component/designed_button.dart';
 import 'package:flutter_client_front/reservation_status/component/reservation_state/reservation_state_item_2.dart';
 import 'package:flutter_client_front/reservation_status/model/entity/reservation_entity.dart';
 import 'package:flutter_client_front/reservation_status/model/state/reservation_list_state.dart';
+import 'package:flutter_client_front/reservation_status/type/reservation_type.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ReservationStateList extends ConsumerStatefulWidget {
@@ -28,10 +33,10 @@ class ReservationStateList extends ConsumerStatefulWidget {
 
 class _ReservationStateListState extends ConsumerState<ReservationStateList> {
   late CustomCancelListController controller;
-
   @override
   Widget build(BuildContext context) {
     controller = ref.watch(widget.provider);
+    final viewmodel = ref.watch(loginViewModelProvider);
 
     switch (widget.state.runtimeType) {
       case ReservationStatusListStateNone:
@@ -84,9 +89,106 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                               entity: e.value,
                               isChecked:
                                   controller.isChecked(e.value.reservationId),
-                              onPressed: (value) {
-                                controller
-                                    .clickedCheckBox(e.value.reservationId);
+                              onPressed: () {
+                                if (ReservationType.fromEntity(e.value) ==
+                                        ReservationType.able &&
+                                    viewmodel.state is AuthStateSuccess) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        actions: [
+                                          DesignedButton(
+                                            color: kPointColor,
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            icon: Icons.close,
+                                            text: "취소",
+                                          ),
+                                          DesignedButton(
+                                            onPressed: () {},
+                                            icon: Icons.check,
+                                            text: "확인",
+                                          ),
+                                        ],
+                                        title: Text(
+                                          "예약 확인",
+                                          style: kTextMainStyle.copyWith(
+                                            fontSize: kTextSmallSize,
+                                          ),
+                                        ),
+                                        content: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: kPaddingLargeSize,
+                                              left: kPaddingLargeSize,
+                                              right: kPaddingLargeSize),
+                                          child: Text(
+                                            "예약 날짜: ${regDateFormatK.format(e.value.date)} ${e.value.time}시\n정말 예약 하시겠습니까?",
+                                            style: kTextMainStyle.copyWith(
+                                              fontSize: kTextMiddleSize,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+                                if (ReservationType.fromEntity(e.value) ==
+                                        ReservationType.able &&
+                                    viewmodel.state is! AuthStateSuccess) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          "- 알림 -",
+                                          textAlign: TextAlign.center,
+                                          style: kTextMainStyle.copyWith(
+                                              fontSize: kTextLargeSize),
+                                        ),
+                                        content: Padding(
+                                          padding:
+                                              EdgeInsets.all(kPaddingLargeSize),
+                                          child: RichText(
+                                            textAlign: TextAlign.center,
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: "예약하려면 ",
+                                                  style:
+                                                      kTextMainStyle.copyWith(
+                                                    fontSize: kTextLargeSize,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: "로그인",
+                                                  style:
+                                                      kTextMainStyle.copyWith(
+                                                    fontSize: kTextLargeSize,
+                                                    fontWeight: FontWeight.w900,
+                                                    color:
+                                                        kMainColor, // 로그인 텍스트의 색상 변경
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: "이 필요합니다!",
+                                                  style:
+                                                      kTextMainStyle.copyWith(
+                                                    fontSize: kTextLargeSize,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               isLast:
                                   widget.reservationStatusList!.length - 1 ==
