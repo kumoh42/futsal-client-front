@@ -14,3 +14,5 @@ const Color kBackgroundMainColor = Color(0xFFFFFFFF);
 const Color kShadowColor = Color(0xFF999999);
 
 Color kBorderColor = const Color(0xFF000000).withOpacity(0.3);
+
+const Color kSelectColor = Color.fromARGB(255, 67, 111, 59);

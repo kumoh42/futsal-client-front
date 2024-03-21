@@ -59,7 +59,7 @@ extension ReservationTypeData on ReservationType {
         return Text(
           "예약 가능",
           style: kTextNormalStyle.copyWith(
-            fontSize: kTextLargeSize,
+            fontSize: (kTextMiddleSize + kTextLargeSize) / 2,
             color: kTextReverseColor,
             fontWeight: FontWeight.w900,
           ),
@@ -68,7 +68,7 @@ extension ReservationTypeData on ReservationType {
         return Text(
           "예약 불가능",
           style: kTextNormalStyle.copyWith(
-            fontSize: kTextLargeSize,
+            fontSize: (kTextMiddleSize + kTextLargeSize) / 2,
             color: kTextReverseColor,
             fontWeight: FontWeight.w900,
           ),

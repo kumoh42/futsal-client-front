@@ -8,7 +8,7 @@ import 'package:flutter_client_front/reservation_status/type/reservation_type.da
 
 class ReservationStateItem2 extends StatefulWidget {
   final ReservationStatusEntity entity;
-  final void Function(bool?) onPressed;
+  final void Function() onPressed;
   final bool isChecked;
   final int index;
   final bool isLast;
@@ -39,19 +39,15 @@ class _ReservationStateItem2State extends State<ReservationStateItem2> {
           isHovered = value;
         });
       },
-      onTap: () {
-        if (widget.type == ReservationType.able) {
-          print("예약");
-        }
-      },
+      onTap: widget.onPressed,
       child: LayoutBuilder(
-        builder: (context, constraints) => Container(
+        builder: (context, constraints) => AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
           decoration: BoxDecoration(
-            border: Border.all(color: kBorderColor),
             borderRadius: BorderRadius.circular(kBorderRadiusSize),
             color: widget.type == ReservationType.able
                 ? isHovered
-                    ? widget.type.color.withAlpha(170)
+                    ? kSelectColor
                     : widget.type.color
                 : widget.type.color,
           ),
@@ -86,7 +82,9 @@ class _ReservationStateItem2State extends State<ReservationStateItem2> {
                                   Text(
                                     widget.entity.circle ?? "개인",
                                     style: kTextMainStyle.copyWith(
-                                      fontSize: kTextLargeSize,
+                                      fontSize:
+                                          (kTextLargeSize + kTextMiddleSize) /
+                                              2,
                                       color: kTextReverseColor,
                                       fontWeight: FontWeight.w600,
                                     ),

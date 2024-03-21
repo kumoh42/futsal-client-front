@@ -95,7 +95,9 @@ class ReservationStateItem extends StatelessWidget {
                                         child: Text(
                                           "예약 가능",
                                           style: kTextNormalStyle.copyWith(
-                                            fontSize: kTextMiddleSize,
+                                            fontSize: (kTextMiddleSize +
+                                                    kTextSmallSize) /
+                                                2,
                                             color: textColor,
                                             fontWeight: FontWeight.w600,
                                           ),
