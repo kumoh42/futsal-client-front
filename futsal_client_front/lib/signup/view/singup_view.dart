@@ -53,7 +53,7 @@ class _SignupViewState extends ConsumerState<SignupView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const _SignupTitle(),
-                      const SizedBox(height: kWPaddingLargeSize),
+                      const SizedBox(height: kWPaddingXLargeSize),
                       CustomTextFormFieldSignup(
                         labelText: "이름",
                         hintText: '이름을 입력해주세요',
@@ -167,13 +167,13 @@ class _SignupTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: kWPaddingMiddleSize),
+        const SizedBox(height: kWPaddingLargeSize),
         Row(
           children: [
             Image(
               image: const AssetImage("assets/image/black_logo.png"),
-              width: ResponsiveData.kIsMobile ? ResponsiveSize.M(150) : 100,
-              height: ResponsiveData.kIsMobile ? ResponsiveSize.M(150) : 100,
+              width: ResponsiveData.kIsMobile ? ResponsiveSize.M(130) : 100,
+              height: ResponsiveData.kIsMobile ? ResponsiveSize.M(130) : 100,
               fit: BoxFit.cover,
             ),
             Expanded(
@@ -182,7 +182,7 @@ class _SignupTitle extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: ResponsiveData.kIsMobile
-                      ? ResponsiveSize.M(kWTextLargeSize)
+                      ? ResponsiveSize.M(kWTextTitleSize)
                       : kWTextMiddleSize,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,

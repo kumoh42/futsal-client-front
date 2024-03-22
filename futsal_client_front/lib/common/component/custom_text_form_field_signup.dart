@@ -43,7 +43,7 @@ class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
   Widget build(BuildContext context) {
     final fontSize = ResponsiveData.kIsMobile
         ? ResponsiveSize.M(kWTextLargeSize)
-        : kWTextMiddleSize;
+        : kWTextSmallSize;
     return Container(
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? kBackgroundMainColor,
@@ -60,7 +60,9 @@ class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
           if (widget.prefixIcon != null) const SizedBox(width: kWPaddingSmallSize),
           if (widget.labelText != null)
             Container(
-              width: 130,
+              width: ResponsiveData.kIsMobile
+                  ? ResponsiveSize.M(180)
+                  : 110,
               child: Text(
                 widget.labelText!,
                 style: kTextMainStyle.copyWith(fontSize: fontSize),
