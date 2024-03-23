@@ -6,9 +6,9 @@ import 'package:flutter_client_front/common/utils/data_utils.dart';
 import 'package:flutter_client_front/reservation_status/model/entity/reservation_entity.dart';
 import 'package:flutter_client_front/reservation_status/type/reservation_type.dart';
 
-class ReservationStateItem2 extends StatelessWidget {
+class ReservationStateItem2 extends StatefulWidget {
   final ReservationStatusEntity entity;
-  final void Function(bool?) onPressed;
+  final void Function() onPressed;
   final bool isChecked;
   final int index;
   final bool isLast;
@@ -26,74 +26,99 @@ class ReservationStateItem2 extends StatelessWidget {
   }
 
   @override
+  State<ReservationStateItem2> createState() => _ReservationStateItem2State();
+}
+
+class _ReservationStateItem2State extends State<ReservationStateItem2> {
+  bool isHovered = false;
+  @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kBorderRadiusSize),
-          color: type.color,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: kPaddingLargeSize),
-            SizedBox(
-              width: kIconMiddleSize,
-              height: kIconMiddleSize,
-              child: type.icon,
-            ),
-            SizedBox(width: kPaddingLargeSize),
-            Text(
-              DataUtils.intToTimeRange(entity.time, 2),
-              textAlign: TextAlign.center,
-              style: kTextReverseStyle.copyWith(fontSize: kTextSmallSize),
-            ),
-            SizedBox(width: kPaddingLargeSize),
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: type == ReservationType.reserved
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              textBaseline: TextBaseline.alphabetic,
-                              children: [
-                                Text(
-                                  entity.circle ?? "개인",
-                                  style: kTextMainStyle.copyWith(
-                                    fontSize: kTextLargeSize,
-                                    color: kTextReverseColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(width: kPaddingMiniSize),
-                                Text(
-                                  entity.major ?? '',
-                                  style: kTextReverseStyle.copyWith(
-                                    fontSize: kTextMiniSize,
-                                    color: kTextReverseColor,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : type.contents,
-                    ),
-                  ),
-                  if (type == ReservationType.able)
-                    Transform.scale(
-                      scale: ResponsiveSize.S(1.3),
-                      child: ElevatedButton(
-                          onPressed: () {}, child: const Text("예약하기")),
-                    ),
-                  SizedBox(width: kPaddingLargeSize),
-                ],
+    return InkWell(
+      onHover: (value) {
+        setState(() {
+          isHovered = value;
+        });
+      },
+      onTap: () {
+        setState(() {
+          isHovered = true;
+        });
+        widget.onPressed();
+        Future.delayed(const Duration(milliseconds: 200), () {
+          setState(() {
+            isHovered = false;
+          });
+        });
+      },
+      child: LayoutBuilder(
+        builder: (context, constraints) => AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadiusSize),
+            color: widget.type == ReservationType.able
+                ? isHovered
+                    ? kSelectColor
+                    : widget.type.color
+                : widget.type.color,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(width: kPaddingLargeSize),
+              SizedBox(
+                width: kIconMiddleSize,
+                height: kIconMiddleSize,
+                child: widget.type.icon,
               ),
-            ),
-          ],
+              SizedBox(width: kPaddingLargeSize),
+              Text(
+                DataUtils.intToTimeRange(widget.entity.time, 2),
+                textAlign: TextAlign.center,
+                style: kTextReverseStyle.copyWith(fontSize: kTextMiddleSize),
+              ),
+              SizedBox(width: kPaddingLargeSize),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: widget.type == ReservationType.reserved
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  Text(
+                                    widget.entity.circle ?? "개인",
+                                    style: kTextMainStyle.copyWith(
+                                      fontSize:
+                                          (kTextLargeSize + kTextMiddleSize) /
+                                              2,
+                                      color: kTextReverseColor,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  SizedBox(width: kPaddingMiniSize),
+                                  Text(
+                                    widget.entity.major ?? '',
+                                    style: kTextReverseStyle.copyWith(
+                                      fontSize: kTextMiniSize,
+                                      color: kTextReverseColor,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : widget.type.contents,
+                      ),
+                    ),
+                    SizedBox(width: kPaddingLargeSize),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

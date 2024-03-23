@@ -6,7 +6,7 @@ const double kWLayoutMaxSize = 1440;
 const double kWLayoutMarginSize = 36.0;
 const double kWLayoutGutterSize = 12.0;
 
-const double kMobileTrigger = 768;
+const double kMobileTrigger = 850;
 
 const double kMLayoutMaxSize = 400;
 const double kMLayoutMarginSize = 12.0;

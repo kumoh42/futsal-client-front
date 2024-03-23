@@ -1,11 +1,13 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_client_front/auth/model/state/auth_state.dart';
 import 'package:flutter_client_front/auth/view/login_view.dart';
+import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/component/container/responsive_container.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DefaultContainer extends StatelessWidget {
@@ -79,7 +81,7 @@ class _DefaultLayoutContainer extends Container {
         );
 }
 
-class _DefaultLayoutAppBar extends StatelessWidget
+class _DefaultLayoutAppBar extends ConsumerWidget
     implements PreferredSizeWidget {
   final String title;
   final Color color = kBackgroundMainColor;
@@ -91,9 +93,10 @@ class _DefaultLayoutAppBar extends StatelessWidget
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final appbarHeight =
         ResponsiveData.kIsMobile ? kToolbarHeight - 10 : kToolbarHeight;
+    final viewModel = ref.watch(loginViewModelProvider);
     return Container(
       padding: EdgeInsets.only(bottom: kPaddingSmallSize),
       decoration: BoxDecoration(
@@ -105,7 +108,6 @@ class _DefaultLayoutAppBar extends StatelessWidget
           height: appbarHeight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 children: [
@@ -122,7 +124,9 @@ class _DefaultLayoutAppBar extends StatelessWidget
                       top: kPaddingSmallSize / 2,
                     ),
                     child: Text(
-                      title,
+                      viewModel.state is AuthStateSuccess
+                          ? "반갑습니다 김정현님!"
+                          : "풋살장 사용자 페이지",
                       style: kTextMainStyle.copyWith(fontSize: kTextTitleSize),
                       textAlign:
                           ResponsiveData.kIsMobile ? TextAlign.center : null,
@@ -130,11 +134,63 @@ class _DefaultLayoutAppBar extends StatelessWidget
                   ),
                 ],
               ),
-              IconButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const LoginView(),
-                      )),
-                  icon: const Icon(Icons.login)),
+              Row(
+                children: [
+                  if (viewModel.state is! AuthStateSuccess)
+                    Transform.translate(
+                      offset: Offset(-7.5.w, 3.w),
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const Dialog(
+                                surfaceTintColor: Colors.transparent,
+                                backgroundColor: kBackgroundMainColor,
+                                child: SizedBox(
+                                  width: 500,
+                                  height: 500,
+                                  child: LoginView(),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          "로그인",
+                          style: kTextMainStyle.copyWith(
+                            fontSize: kTextLargeSize,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (viewModel.state is AuthStateSuccess)
+                    PopupMenuButton(
+                      tooltip: "사용자 설정",
+                      iconSize: kIconLargeSize,
+                      itemBuilder: (BuildContext context) => [
+                        PopupMenuItem(
+                          onTap: () {},
+                          child: Text(
+                            "내 정보 수정",
+                            style: kTextMainStyle.copyWith(
+                                fontSize: kTextMiddleSize),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          child: Text(
+                            "로그아웃",
+                            style: kTextMainStyle.copyWith(
+                                fontSize: kTextMiddleSize),
+                          ),
+                          onTap: () => viewModel.logout(),
+                        ),
+                      ],
+                      icon: const Icon(Icons.person),
+                    ),
+                ],
+              ),
             ],
           ),
         ),
