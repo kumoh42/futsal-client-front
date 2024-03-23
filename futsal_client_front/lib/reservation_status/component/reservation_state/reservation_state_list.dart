@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_client_front/auth/model/state/auth_state.dart';
+import 'package:flutter_client_front/auth/view/login_view.dart';
 import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
@@ -140,50 +141,14 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                                     viewmodel.state is! AuthStateSuccess) {
                                   showDialog(
                                     context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                          "- 알림 -",
-                                          textAlign: TextAlign.center,
-                                          style: kTextMainStyle.copyWith(
-                                              fontSize: kTextLargeSize),
-                                        ),
-                                        content: Padding(
-                                          padding:
-                                              EdgeInsets.all(kPaddingLargeSize),
-                                          child: RichText(
-                                            textAlign: TextAlign.center,
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: "예약하려면 ",
-                                                  style:
-                                                      kTextMainStyle.copyWith(
-                                                    fontSize: kTextLargeSize,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: "로그인",
-                                                  style:
-                                                      kTextMainStyle.copyWith(
-                                                    fontSize: kTextLargeSize,
-                                                    fontWeight: FontWeight.w900,
-                                                    color:
-                                                        kMainColor, // 로그인 텍스트의 색상 변경
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: "이 필요합니다!",
-                                                  style:
-                                                      kTextMainStyle.copyWith(
-                                                    fontSize: kTextLargeSize,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                    builder: (BuildContext context) {
+                                      return const Dialog(
+                                        surfaceTintColor: Colors.transparent,
+                                        backgroundColor: kBackgroundMainColor,
+                                        child: SizedBox(
+                                          width: 500,
+                                          height: 500,
+                                          child: LoginView(),
                                         ),
                                       );
                                     },

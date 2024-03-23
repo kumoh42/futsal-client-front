@@ -39,7 +39,17 @@ class _ReservationStateItem2State extends State<ReservationStateItem2> {
           isHovered = value;
         });
       },
-      onTap: widget.onPressed,
+      onTap: () {
+        setState(() {
+          isHovered = true;
+        });
+        widget.onPressed();
+        Future.delayed(const Duration(milliseconds: 200), () {
+          setState(() {
+            isHovered = false;
+          });
+        });
+      },
       child: LayoutBuilder(
         builder: (context, constraints) => AnimatedContainer(
           duration: const Duration(milliseconds: 200),
@@ -103,41 +113,7 @@ class _ReservationStateItem2State extends State<ReservationStateItem2> {
                             : widget.type.contents,
                       ),
                     ),
-                    if (widget.type == ReservationType.able)
-                      // Transform.scale(
-                      //   scale: ResponsiveSize.S(1.4),
-                      //   child: Padding(
-                      //     padding: EdgeInsets.only(
-                      //       right: kPaddingXLargeSize,
-                      //     ),
-                      //     child: ElevatedButton(
-                      //       onPressed: () {
-                      //         // TODO
-                      //         // if(로그인된 사용자) 예약 확인 화면
-                      //         // else 로그인 화면
-                      //         // 사전예약 기간이라면 일반 사용자 예약 x
-                      //         // 동아리 사용자만 예약 가능
-                      //       },
-                      //       style: ButtonStyle(
-                      //         overlayColor:
-                      //             MaterialStateProperty.all<Color>(kTextSubColor),
-                      //         elevation: MaterialStateProperty.all<double>(2),
-                      //         shape: MaterialStateProperty.all<
-                      //             RoundedRectangleBorder>(
-                      //           RoundedRectangleBorder(
-                      //             borderRadius:
-                      //                 BorderRadius.circular(kBorderRadiusSize),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //       child: const Text(
-                      //         "예약하기",
-                      //         style: kTextNormalStyle,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      SizedBox(width: kPaddingLargeSize),
+                    SizedBox(width: kPaddingLargeSize),
                   ],
                 ),
               ),
