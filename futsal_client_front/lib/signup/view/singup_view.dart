@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_client_front/common/component/custum_dropdownbutton_form_feld.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/signup/controller/member_controller.dart';
+import 'package:flutter_client_front/signup/model/state/member_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/component/custom_text_form_field_signup.dart';
 import '../../common/styles/sizes.dart';
@@ -117,6 +118,7 @@ class _SignupViewState extends ConsumerState<SignupView> {
                         validator: validatePhoneNumber,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
+                      if(memberController.state is! MemberStateLoading)
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -148,6 +150,17 @@ class _SignupViewState extends ConsumerState<SignupView> {
                           ),
                         ),
                       ),
+                      if(memberController.state is MemberStateLoading)
+                        SizedBox(
+                          width: ResponsiveData.kIsMobile
+                              ? ResponsiveSize.M(76)
+                              : 76,
+                          height: ResponsiveData.kIsMobile
+                              ? ResponsiveSize.M(76)
+                              : 76,
+                          child:
+                          const CircularProgressIndicator(color: kMainColor),
+                        )
                     ],
                   ),
                 ),
