@@ -122,7 +122,7 @@ class _SignupViewState extends ConsumerState<SignupView> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            memberController.signup();
+                            memberController.signup(context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -191,7 +191,7 @@ class _SignupTitle extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                'Administrator Signup\n- 체육시설 예약 시스템 -',
+                'User Signup\n- 체육시설 예약 시스템 -',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: ResponsiveData.kIsMobile

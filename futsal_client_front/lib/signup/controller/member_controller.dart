@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_client_front/signup/model/entity/member_entity.dart';
 import 'package:flutter_client_front/signup/model/service/member_service.dart';
@@ -38,7 +40,7 @@ class MemberController extends ChangeNotifier{
   }
 
 
-  Future<void> signup() async {
+  Future<void> signup(BuildContext context) async {
       MemberEntity member = MemberEntity(
         name: nameTextController.text,
         id: idTextController.text,
@@ -49,6 +51,8 @@ class MemberController extends ChangeNotifier{
         phoneNumber: phoneTextController.text,
       );
       await ref.read(memberServiceProvider.notifier).signup(memberEntity: member);
-
+      if(state is MemberStateSuccess) {
+        Navigator.of(context).pop();
+      }
   }
 }

@@ -25,12 +25,19 @@ class MemberService extends StateNotifier<MemberState> {
       state = MemberStateSuccess("회원가입에 성공했습니다");
     } on DioException catch (e) {
       if (e.response?.data['message']?[0] != null) {
-         state = MemberStateError(e.response?.data['message']?[0]);
+         state = MemberStateError(e.response!.data['message'].toString());
       }
-      if (e.response?.statusCode == 200) {
-        state = MemberStateError(e.message ?? "알 수 없는 에러가 발생했습니다.");
+      else{
+        if (e.response?.statusCode == 200) {
+          state = MemberStateError(e.message ?? "알 수 없는 에러가 발생했습니다.");
+        }
+        else if (e.response?.statusCode == 400) {
+          state = MemberStateError(e.message ?? "계정이 이미 존재합니다.");
+        }
+        else {
+          state = MemberStateError("서버와 연결할 수 없습니다.");
+        }
       }
-      state = MemberStateError("서버와 연결할 수 없습니다.");
     } catch (e) {
       state = MemberStateError("알 수 없는 에러가 발생했습니다.");
     }
