@@ -1,18 +1,17 @@
-import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_client_front/signup/model/entity/member_entity.dart';
 import 'package:flutter_client_front/signup/model/service/member_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../common/state/state.dart';
-import '../../common/utils/information_utils.dart';
-import '../../common/utils/snack_bar_util.dart';
-import '../model/state/member_state.dart';
+import 'package:flutter_client_front/common/state/state.dart';
+import 'package:flutter_client_front/common/const/information_const.dart';
+import 'package:flutter_client_front/common/utils/snack_bar_util.dart';
+import 'package:flutter_client_front/signup/model/state/member_state.dart';
 
-final memberControllerProvider =
-ChangeNotifierProvider((ref) => MemberController(ref));
+final memberViewModelProvider =
+ChangeNotifierProvider((ref) => MemberViewModel(ref));
 
-class MemberController extends ChangeNotifier{
+class MemberViewModel extends ChangeNotifier{
   final Ref ref;
   late MemberState state;
 
@@ -26,7 +25,7 @@ class MemberController extends ChangeNotifier{
   final phoneTextController = TextEditingController();
 
 
-  MemberController(this.ref){
+  MemberViewModel(this.ref){
     state = ref.read(memberServiceProvider);
     ref.listen(memberServiceProvider, (previous, next) {
       if(previous != next) {

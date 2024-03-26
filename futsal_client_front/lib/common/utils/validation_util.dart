@@ -1,4 +1,3 @@
-import 'package:flutter_client_front/signup/controller/member_controller.dart';
 
 final RegExp passwordRegex =
     RegExp(r'^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])(?=.*[0-9])\S{8,20}$');
@@ -19,7 +18,6 @@ String? validatePassword(String? value) {
 }
 
 String? validatePasswordCheck(String? value) {
-  final controller = memberControllerProvider;
   if (value == null) return null;
   if (value.isEmpty) {
     // 공백 입력은 TextFormField에서 막았으므로, Empty인 경우는 입력을 하지 않았을 때 밖에 없음
@@ -66,7 +64,7 @@ String? validateNumeric(String? value) {
   if (value == null) return null;
   if (value.isEmpty) {
     return "값을 입력해 주세요.";
-  } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) { print('숫자만 입력');
+  } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
     return "숫자만 입력해 주세요.";
   } else {
     return null;

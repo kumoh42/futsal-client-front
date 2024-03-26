@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
-import 'package:flutter_client_front/signup/controller/member_controller.dart';
+import 'package:flutter_client_front/signup/viewmodel/member_viewmodel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../styles/text_styles.dart';
+import 'package:flutter_client_front/common/styles/text_styles.dart';
 
 class CustomDropDownButtonFormField extends StatefulWidget {
   final String labelText;
@@ -16,7 +16,7 @@ class CustomDropDownButtonFormField extends StatefulWidget {
   late final double contentPadding;
   final Color? backgroundColor;
   final Map<String, int>? list;
-  final MemberController memberController;
+  final MemberViewModel memberViewModel;
   final int value;
 
   CustomDropDownButtonFormField({
@@ -30,7 +30,7 @@ class CustomDropDownButtonFormField extends StatefulWidget {
     double? contentPadding,
     this.backgroundColor,
     this.list,
-    required this.memberController,
+    required this.memberViewModel,
     required this.value,
   })   : contentPadding = contentPadding ?? kWPaddingMiddleSize,
         super(key: key);
@@ -48,8 +48,8 @@ class _CustomDropDownButtonFormFieldState
   void initState() {
     super.initState();
     _selectedValue = widget.value == 1
-        ? widget.memberController.selectedMajor
-        : widget.memberController.selectedCircle;
+        ? widget.memberViewModel.selectedMajor
+        : widget.memberViewModel.selectedCircle;
   }
 
   @override
@@ -109,8 +109,8 @@ class _CustomDropDownButtonFormFieldState
                 setState(() {
                   _selectedValue = newValue;
                   widget.value == 1
-                      ? widget.memberController.selectedMajor = newValue
-                      : widget.memberController.selectedCircle = newValue;
+                      ? widget.memberViewModel.selectedMajor = newValue
+                      : widget.memberViewModel.selectedCircle = newValue;
                 });
               },
               items: widget.list?.keys

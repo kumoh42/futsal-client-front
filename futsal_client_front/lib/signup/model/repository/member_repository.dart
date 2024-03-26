@@ -3,7 +3,7 @@ import 'package:flutter_client_front/signup/model/entity/member_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 
-import '../../../common/dio/dio.dart';
+import 'package:flutter_client_front/common/dio/dio.dart';
 
 part 'member_repository.g.dart';
 
