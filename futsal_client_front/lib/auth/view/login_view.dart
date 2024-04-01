@@ -8,6 +8,7 @@ import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
 import 'package:flutter_client_front/common/utils/validation_util.dart';
+import 'package:flutter_client_front/signup/view/singup_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginView extends ConsumerStatefulWidget {
@@ -96,8 +97,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
                               ),
                               const SizedBox(height: kWPaddingSmallSize),
                               CustomTextButton(
-                                onPressed: () async {
-                                  // TODO 회원가입 페이지로...
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const SignupView(),
+                                    ),
+                                  );
                                 },
                                 text: '회원가입',
                                 textAlign: TextAlign.left,

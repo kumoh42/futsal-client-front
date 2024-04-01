@@ -7,6 +7,7 @@ import 'package:flutter_client_front/common/component/container/responsive_conta
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
+import 'package:flutter_client_front/signup/view/singup_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -171,7 +172,15 @@ class _DefaultLayoutAppBar extends ConsumerWidget
                       iconSize: kIconLargeSize,
                       itemBuilder: (BuildContext context) => [
                         PopupMenuItem(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const SignupView(
+                                  isSignup: false,
+                                ),
+                              ),
+                            );
+                          },
                           child: Text(
                             "내 정보 수정",
                             style: kTextMainStyle.copyWith(
