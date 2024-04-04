@@ -11,6 +11,7 @@ import 'package:flutter_client_front/reservation_status/component/reservation_st
 import 'package:flutter_client_front/reservation_status/model/entity/reservation_entity.dart';
 import 'package:flutter_client_front/reservation_status/model/state/reservation_list_state.dart';
 import 'package:flutter_client_front/reservation_status/type/reservation_type.dart';
+import 'package:flutter_client_front/reservation_status/viewmodel/reservation_making_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ReservationStateList extends ConsumerStatefulWidget {
@@ -108,7 +109,15 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                                             text: "취소",
                                           ),
                                           DesignedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              if (viewmodel.state
+                                                  is AuthStateSuccess) {
+                                                ref
+                                                    .read(
+                                                        reservationMakingViewModelProvider)
+                                                    .makeReservation();
+                                              }
+                                            },
                                             icon: Icons.check,
                                             text: "확인",
                                           ),
