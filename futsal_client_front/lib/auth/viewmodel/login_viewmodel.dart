@@ -3,6 +3,8 @@ import 'package:flutter_client_front/auth/model/service/auth_service.dart';
 import 'package:flutter_client_front/auth/model/state/auth_state.dart';
 import 'package:flutter_client_front/common/state/state.dart';
 import 'package:flutter_client_front/common/utils/snack_bar_util.dart';
+import 'package:flutter_client_front/signup/model/service/member_info_service.dart';
+import 'package:flutter_client_front/signup/model/state/member_info_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,7 +14,7 @@ final loginViewModelProvider =
 class LoginViewModel extends ChangeNotifier {
   final Ref ref;
   late AuthState state;
-
+  late MemberInfoState memberInfoState;
   final idTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -20,6 +22,7 @@ class LoginViewModel extends ChangeNotifier {
 
   LoginViewModel(this.ref) {
     state = ref.read(authServiceProvider);
+    memberInfoState = ref.watch(memberInfoServiceProvider);
     ref.listen<AuthState>(authServiceProvider, (previous, next) {
       if (previous != next) {
         state = next;
@@ -37,6 +40,7 @@ class LoginViewModel extends ChangeNotifier {
           id: idTextController.text,
           password: passwordTextController.text,
         );
+    await ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
   }
 
   Future logout() async {

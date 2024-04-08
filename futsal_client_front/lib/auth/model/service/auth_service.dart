@@ -4,20 +4,25 @@ import 'package:flutter_client_front/auth/model/repository/auth_repository.dart'
 import 'package:flutter_client_front/auth/model/state/auth_state.dart';
 import 'package:flutter_client_front/common/env/env.dart';
 import 'package:flutter_client_front/common/local_storage/local_storage.dart';
+import 'package:flutter_client_front/signup/model/entity/member_info_entity.dart';
+import 'package:flutter_client_front/signup/model/repository/member_info_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authServiceProvider =
     StateNotifierProvider<AuthService, AuthState>((ref) {
   final authDataSource = ref.watch(authRepositoryProvider);
   final storage = ref.watch(localStorageProvider);
-  return AuthService(authDataSource, storage);
+  final memberInfoRepo = ref.watch(memberInfoRepositoryProvider);
+  return AuthService(authDataSource, storage, memberInfoRepo);
 });
 
 class AuthService extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
+  final MemberInfoRepository memberInfoRepository;
   final LocalStorage storage;
 
-  AuthService(this.authRepository, this.storage) : super(AuthStateLoading()) {
+  AuthService(this.authRepository, this.storage, this.memberInfoRepository)
+      : super(AuthStateLoading()) {
     _getUserInfo();
   }
 
@@ -61,8 +66,17 @@ class AuthService extends StateNotifier<AuthState> {
     }
 
     try {
-      final data = await authRepository.getUserInfo();
-      state = AuthStateSuccess(data);
+      //  final data = await memberInfoRepository.getMemberInfo();
+      state = AuthStateSuccess(
+        MemberInfoEntity(
+          name: "zzz",
+          phoneNumber: "010-8411-6111",
+          sNumber: 20200284,
+          isConfirm: false,
+          circle: 15,
+          major: 27,
+        ),
+      );
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 400) {
         state = AuthStateError(

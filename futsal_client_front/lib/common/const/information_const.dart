@@ -50,3 +50,12 @@ const Map<String, int> majorListWithId = {
   "토목공학과": 25,
   "화학소재융합공학부": 24,
 };
+
+String findKeyByValue(int value, Map<String, int> map) {
+  for (var entry in map.entries) {
+    if (entry.value == value) {
+      return entry.key;
+    }
+  }
+  return "?";
+}

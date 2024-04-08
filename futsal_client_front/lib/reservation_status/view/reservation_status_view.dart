@@ -5,6 +5,7 @@ import 'package:flutter_client_front/auth/view/login_view.dart';
 import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/component/container/responsive_container.dart';
 import 'package:flutter_client_front/common/component/container/stack_container.dart';
+import 'package:flutter_client_front/common/const/information_const.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
@@ -24,6 +25,7 @@ class ReservationStatusView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewmodel = ref.watch(reservationStatusViewModelProvider);
     final loginViewModel = ref.watch(loginViewModelProvider);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -90,21 +92,21 @@ class ReservationStatusView extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "학과: 컴퓨터소프트웨어공학과",
+                      "동아리: ${findKeyByValue((loginViewModel.state as AuthStateSuccess).data.circle, circleListWithId)}",
                       style: kTextMainStyle.copyWith(
                         fontSize: kTextLargeSize,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "동아리: SOFT",
+                      "학과: ${findKeyByValue((loginViewModel.state as AuthStateSuccess).data.major, majorListWithId)}",
                       style: kTextMainStyle.copyWith(
                         fontSize: kTextLargeSize,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "이름: 김정현",
+                      "사용 승인 여부: ${((loginViewModel.state as AuthStateSuccess).data.isConfirm) ? "승인O" : "승인X"}",
                       style: kTextMainStyle.copyWith(
                         fontSize: kTextLargeSize,
                       ),
