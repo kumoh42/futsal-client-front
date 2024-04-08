@@ -22,7 +22,8 @@ class _MemberInfoRepository implements MemberInfoRepository {
   Future<MemberInfoEntity> getMemberInfo() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<MemberInfoEntity>(Options(
@@ -38,6 +39,30 @@ class _MemberInfoRepository implements MemberInfoRepository {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MemberInfoEntity.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<dynamic> editMemberInfo(MemberEntity memberEntity) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(memberEntity.toJson());
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/user',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
     return value;
   }
 
