@@ -1,4 +1,3 @@
-import 'package:flutter_client_front/auth/model/entity/user_entity.dart';
 import 'package:flutter_client_front/common/state/state.dart';
 import 'package:flutter_client_front/signup/model/entity/member_info_entity.dart';
 

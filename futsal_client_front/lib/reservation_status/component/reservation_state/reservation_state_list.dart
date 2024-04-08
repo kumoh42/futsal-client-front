@@ -134,7 +134,7 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                                               left: kPaddingLargeSize,
                                               right: kPaddingLargeSize),
                                           child: Text(
-                                            "예약 날짜: ${regDateFormatK.format(e.value.date)} ${e.value.time}시\n정말 예약 하시겠습니까?",
+                                            "예약 날짜: ${regDateFormatK.format(e.value.date)} ${e.value.time.toString().padLeft(2, "0")}시~${(e.value.time + 2).toString().padLeft(2, "0")}시\n정말 예약 하시겠습니까?",
                                             style: kTextMainStyle.copyWith(
                                               fontSize: kTextMiddleSize,
                                             ),

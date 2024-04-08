@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_client_front/common/dio/dio.dart';
-import 'package:flutter_client_front/signup/model/entity/member_entity.dart';
+import 'package:flutter_client_front/signup/model/entity/member_edit_entity.dart';
 import 'package:flutter_client_front/signup/model/entity/member_info_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
@@ -21,5 +21,5 @@ abstract class MemberInfoRepository {
   Future<MemberInfoEntity> getMemberInfo();
   @PATCH('/user')
   @Headers({'accessToken': 'true'})
-  Future editMemberInfo(@Body() MemberEntity memberEntity);
+  Future editMemberInfo(@Body() MemberEditEntity entity);
 }
