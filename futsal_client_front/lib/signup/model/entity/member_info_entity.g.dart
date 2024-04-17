@@ -8,20 +8,22 @@ part of 'member_info_entity.dart';
 
 MemberInfoEntity _$MemberInfoEntityFromJson(Map<String, dynamic> json) =>
     MemberInfoEntity(
-      name: json['userName'] as String,
-      sNumber: json['sNumber'] as int,
-      phoneNumber: json['phoneNumber'] as String,
-      isConfirm: json['is_confirm'] as bool,
-      circle: json['circle'] as int,
-      major: json['major'] as int,
+      user_name: json['user_name'] as String,
+      user_student_number: json['user_student_number'] as int,
+      phone_number: json['phone_number'] as String,
+      is_denied: json['is_denied'] as String,
+      circle_srl: json['circle_srl'] as int,
+      major_srl: json['major_srl'] as int,
+      member_srl: json['member_srl'] as int,
     );
 
 Map<String, dynamic> _$MemberInfoEntityToJson(MemberInfoEntity instance) =>
     <String, dynamic>{
-      'userName': instance.name,
-      'circle': instance.circle,
-      'major': instance.major,
-      'is_confirm': instance.isConfirm,
-      'sNumber': instance.sNumber,
-      'phoneNumber': instance.phoneNumber,
+      'user_name': instance.user_name,
+      'circle_srl': instance.circle_srl,
+      'major_srl': instance.major_srl,
+      'is_denied': instance.is_denied,
+      'user_student_number': instance.user_student_number,
+      'phone_number': instance.phone_number,
+      'member_srl': instance.member_srl,
     };

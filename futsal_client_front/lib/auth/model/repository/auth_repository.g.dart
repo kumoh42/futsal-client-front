@@ -42,14 +42,14 @@ class _AuthRepository implements AuthRepository {
   }
 
   @override
-  Future<UserEntity> getUserInfo() async {
+  Future<MemberInfoEntity> getMemberInfo() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<UserEntity>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<MemberInfoEntity>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -61,7 +61,7 @@ class _AuthRepository implements AuthRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UserEntity.fromJson(_result.data!);
+    final value = MemberInfoEntity.fromJson(_result.data!);
     return value;
   }
 

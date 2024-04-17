@@ -19,6 +19,7 @@ ReservationStatusEntity _$ReservationStatusEntityFromJson(
           ReservationStatusEntity._regDateFromJson(json['regdate'] as String),
       circle: json['circle'] as String?,
       major: json['major'] as String?,
+      member_srl: json['member_srl'] as int?,
     );
 
 Map<String, dynamic> _$ReservationStatusEntityToJson(
@@ -33,4 +34,5 @@ Map<String, dynamic> _$ReservationStatusEntityToJson(
       'regdate': ReservationStatusEntity._regDateToJson(instance.regDate),
       'circle': instance.circle,
       'major': instance.major,
+      'member_srl': instance.member_srl,
     };

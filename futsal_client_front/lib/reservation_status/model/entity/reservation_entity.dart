@@ -23,6 +23,8 @@ class ReservationStatusEntity {
   final String? circle;
   @JsonKey(name: "major")
   final String? major;
+  @JsonKey(name: "member_srl")
+  final int? member_srl;
 
   static DateTime _dateFromJson(String date) => defaultDateFormat.parse(date);
   static String _dateToJson(DateTime date) => defaultDateFormat.format(date);
@@ -40,6 +42,7 @@ class ReservationStatusEntity {
     required this.regDate,
     required this.circle,
     required this.major,
+    required this.member_srl,
   });
   bool get isPre => isPreReservation(date);
 

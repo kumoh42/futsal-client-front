@@ -24,7 +24,7 @@ class _MemberInfoRepository implements MemberInfoRepository {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<MemberInfoEntity>(Options(
       method: 'GET',
@@ -51,7 +51,7 @@ class _MemberInfoRepository implements MemberInfoRepository {
     final _data = <String, dynamic>{};
     _data.addAll(entity.toJson());
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
-      method: 'PATCH',
+      method: 'PUT',
       headers: _headers,
       extra: _extra,
     )

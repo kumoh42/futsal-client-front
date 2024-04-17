@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_client_front/auth/model/dto/login_request_dto.dart';
-import 'package:flutter_client_front/auth/model/entity/user_entity.dart';
 import 'package:flutter_client_front/common/dio/dio.dart';
+import 'package:flutter_client_front/signup/model/entity/member_info_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -21,5 +21,5 @@ abstract class AuthRepository {
 
   @GET('/user')
   @Headers({'accessToken': 'true'})
-  Future<UserEntity> getUserInfo();
+  Future<MemberInfoEntity> getMemberInfo();
 }

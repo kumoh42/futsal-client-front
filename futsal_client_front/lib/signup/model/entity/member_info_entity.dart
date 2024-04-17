@@ -4,30 +4,32 @@ part 'member_info_entity.g.dart';
 
 @JsonSerializable()
 class MemberInfoEntity {
-  @JsonKey(name: "userName")
-  final String name;
-  @JsonKey(name: "circle")
-  final int circle;
-  @JsonKey(name: "major")
-  final int major;
-  @JsonKey(name: "is_confirm")
-  final bool isConfirm;
-  @JsonKey(name: "sNumber")
-  final int sNumber;
-  @JsonKey(name: "phoneNumber")
-  final String phoneNumber;
+  @JsonKey(name: "user_name")
+  final String user_name;
+  @JsonKey(name: "circle_srl")
+  final int circle_srl;
+  @JsonKey(name: "major_srl")
+  final int major_srl;
+  @JsonKey(name: "is_denied")
+  final String is_denied;
+  @JsonKey(name: "user_student_number")
+  final int user_student_number;
+  @JsonKey(name: "phone_number")
+  final String phone_number;
+  @JsonKey(name: "member_srl")
+  final int member_srl;
 
   MemberInfoEntity({
-    required this.name,
-    required this.sNumber,
-    required this.phoneNumber,
-    required this.isConfirm,
-    required this.circle,
-    required this.major,
+    required this.user_name,
+    required this.user_student_number,
+    required this.phone_number,
+    required this.is_denied,
+    required this.circle_srl,
+    required this.major_srl,
+    required this.member_srl,
   });
 
   Map<String, dynamic> toJson() => _$MemberInfoEntityToJson(this);
-
   factory MemberInfoEntity.fromJson(Map<String, dynamic> json) =>
       _$MemberInfoEntityFromJson(json);
 }

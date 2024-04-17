@@ -40,7 +40,6 @@ class LoginViewModel extends ChangeNotifier {
           id: idTextController.text,
           password: passwordTextController.text,
         );
-    await ref.read(memberInfoServiceProvider.notifier).getMemberInfo();
   }
 
   Future logout() async {

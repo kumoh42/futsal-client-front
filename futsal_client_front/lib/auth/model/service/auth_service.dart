@@ -7,23 +7,21 @@ import 'package:flutter_client_front/common/local_storage/local_storage.dart';
 import 'package:flutter_client_front/signup/model/entity/member_info_entity.dart';
 import 'package:flutter_client_front/signup/model/repository/member_info_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:universal_html/html.dart';
 
 final authServiceProvider =
     StateNotifierProvider<AuthService, AuthState>((ref) {
   final authDataSource = ref.watch(authRepositoryProvider);
   final storage = ref.watch(localStorageProvider);
-  final memberInfoRepo = ref.watch(memberInfoRepositoryProvider);
-  return AuthService(authDataSource, storage, memberInfoRepo);
+  return AuthService(authDataSource, storage);
 });
 
 class AuthService extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
-  final MemberInfoRepository memberInfoRepository;
   final LocalStorage storage;
 
-  AuthService(this.authRepository, this.storage, this.memberInfoRepository)
-      : super(AuthStateLoading()) {
-    _getUserInfo();
+  AuthService(this.authRepository, this.storage) : super(AuthStateNone()) {
+    //  _getUserInfo();
   }
 
   Future login({required String id, required String password}) async {
@@ -48,6 +46,8 @@ class AuthService extends StateNotifier<AuthState> {
     }
   }
 
+  Future test() async {}
+
   Future logout() async {
     state = AuthStateLoading();
     await _removeToken();
@@ -66,17 +66,8 @@ class AuthService extends StateNotifier<AuthState> {
     }
 
     try {
-      //  final data = await memberInfoRepository.getMemberInfo();
-      state = AuthStateSuccess(
-        MemberInfoEntity(
-          name: "zzz",
-          phoneNumber: "010-8411-6111",
-          sNumber: 20200284,
-          isConfirm: false,
-          circle: 15,
-          major: 27,
-        ),
-      );
+      final data = await authRepository.getMemberInfo();
+      state = AuthStateSuccess(data);
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 400) {
         state = AuthStateError(

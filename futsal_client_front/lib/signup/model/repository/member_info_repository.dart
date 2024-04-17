@@ -19,7 +19,7 @@ abstract class MemberInfoRepository {
   @GET('/user')
   @Headers({'accessToken': 'true'})
   Future<MemberInfoEntity> getMemberInfo();
-  @PATCH('/user')
+  @PUT('/user')
   @Headers({'accessToken': 'true'})
   Future editMemberInfo(@Body() MemberEditEntity entity);
 }

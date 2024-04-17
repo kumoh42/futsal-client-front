@@ -17,6 +17,6 @@ class MemberEditEntity {
     required this.sNumber,
   });
   factory MemberEditEntity.fromJson(Map<String, dynamic> json) =>
-      _$MemeberEditEntityFromJson(json);
+      _$MemberEditEntityFromJson(json);
   Map<String, dynamic> toJson() => _$MemberEditEntityToJson(this);
 }

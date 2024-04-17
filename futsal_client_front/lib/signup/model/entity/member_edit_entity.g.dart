@@ -6,7 +6,7 @@ part of 'member_edit_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MemberEditEntity _$MemeberEditEntityFromJson(Map<String, dynamic> json) =>
+MemberEditEntity _$MemberEditEntityFromJson(Map<String, dynamic> json) =>
     MemberEditEntity(
       name: json['name'] as String,
       phoneNumber: json['phoneNumber'] as String,
