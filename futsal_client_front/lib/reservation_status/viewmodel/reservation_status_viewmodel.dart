@@ -52,14 +52,14 @@ class ReservationStatusViewModel extends ChangeNotifier {
     });
   }
 
-  void getReservationStatusList({bool force = false}) async {
+  Future getReservationStatusList({bool force = false}) async {
     await ref
         .read(reservationStatusServiceProvider.notifier)
         .getReservationStatusList(
           date: customTimeTableController.selectedDay,
           force: force,
         );
-    cancelListController.reset();
     notifyListeners();
+    cancelListController.reset();
   }
 }

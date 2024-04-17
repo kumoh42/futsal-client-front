@@ -6,11 +6,11 @@ part 'reservation_making_entity.g.dart';
 class ReservationMakingEntity {
   @JsonKey(name: "date")
   final String date;
-  @JsonKey(name: "times")
-  final int times;
+  @JsonKey(name: "time")
+  final int time;
   ReservationMakingEntity({
     required this.date,
-    required this.times,
+    required this.time,
   });
   factory ReservationMakingEntity.fromJson(Map<String, dynamic> json) =>
       _$ReservationMakingEntityFromJson(json);

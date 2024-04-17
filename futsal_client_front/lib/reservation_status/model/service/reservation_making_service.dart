@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_client_front/reservation_status/model/entity/reservation_making_entity.dart';
 import 'package:flutter_client_front/reservation_status/model/repository/reservation_making_repository.dart';
 import 'package:flutter_client_front/reservation_status/model/state/reservation_making_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,8 +16,12 @@ class ReservationMakingService extends StateNotifier<ReservationMakingState> {
   ReservationMakingService(this.repository)
       : super(ReservationMakingStateNone());
 
-  void makeReservation() async {
-    try {} on DioException catch (e) {
+  Future<void> makeReservation(ReservationMakingEntity entity) async {
+    try {
+      state = ReservationMakingStateLoading();
+      await repository.makeReservation(entity);
+      state = ReservationMakingStateSuccess("예약을 성공했습니다.");
+    } on DioException catch (e) {
       if (e.response?.data['message']?[0] != null) {
         state =
             ReservationMakingStateError(e.response!.data['message'].toString());
@@ -28,8 +33,12 @@ class ReservationMakingService extends StateNotifier<ReservationMakingState> {
     }
   }
 
-  void calcelReservation() async {
-    try {} on DioException catch (e) {
+  Future calcelReservation(ReservationMakingEntity entity) async {
+    try {
+      state = ReservationMakingStateLoading();
+      await repository.cancelReservation(entity);
+      state = ReservationMakingStateSuccess("예약을 취소했습니다.");
+    } on DioException catch (e) {
       if (e.response?.data['message']?[0] != null) {
         state =
             ReservationMakingStateError(e.response!.data['message'].toString());
