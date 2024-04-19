@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/component/custum_dropdownbutton_form_feld.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
+import 'package:flutter_client_front/signup/model/state/member_info_state.dart';
 import 'package:flutter_client_front/signup/model/state/member_state.dart';
+import 'package:flutter_client_front/signup/viewmodel/member_info_viewmodel.dart';
 import 'package:flutter_client_front/signup/viewmodel/member_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_client_front/common/component/custom_text_form_field_signup.dart';
@@ -23,11 +26,19 @@ class SignupView extends ConsumerStatefulWidget {
 }
 
 class _SignupViewState extends ConsumerState<SignupView> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.isSignup) {
+      Future(() => ref.read(memberViewModelProvider.notifier).getUserInfo());
+    }
+  }
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final memberViewModel = ref.watch(memberViewModelProvider);
+    final memberInfoViewModel = ref.watch(memberInfoViewModelProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -99,8 +110,9 @@ class _SignupViewState extends ConsumerState<SignupView> {
                               }
                               return null;
                             }),
-                      if (widget.isSignup)
-                        const SizedBox(height: kWPaddingXLargeSize),
+                      const SizedBox(height: kWPaddingXLargeSize),
+                      if (!widget.isSignup)
+                        infoRow("전공", memberViewModel.majorTextController.text),
                       if (widget.isSignup)
                         CustomDropDownButtonFormField(
                           memberViewModel: memberViewModel,
@@ -116,8 +128,10 @@ class _SignupViewState extends ConsumerState<SignupView> {
                         controller: memberViewModel.studentNumTextController,
                         validator: validateNumeric,
                       ),
-                      if (widget.isSignup)
-                        const SizedBox(height: kWPaddingXLargeSize),
+                      const SizedBox(height: kWPaddingXLargeSize),
+                      if (!widget.isSignup)
+                        infoRow(
+                            "동아리", memberViewModel.circleTextController.text),
                       if (widget.isSignup)
                         CustomDropDownButtonFormField(
                           memberViewModel: memberViewModel,
@@ -134,14 +148,27 @@ class _SignupViewState extends ConsumerState<SignupView> {
                         validator: validatePhoneNumber,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
-                      if (memberViewModel.state is! MemberStateLoading)
+                      if ((memberViewModel.state is! MemberStateLoading) &&
+                          (memberInfoViewModel.state
+                              is! MemeberInfoStateLoading))
                         ElevatedButton(
                           onPressed: () {
                             if (widget.isSignup) {
                               if (_formKey.currentState!.validate()) {
                                 memberViewModel.signup(context);
                               }
-                            } else {}
+                            } else {
+                              if (_formKey.currentState!.validate()) {
+                                memberInfoViewModel.editMemberInfo(
+                                  name: memberViewModel.nameTextController.text,
+                                  phoneNumber:
+                                      memberViewModel.phoneTextController.text,
+                                  sNumber: int.parse(memberViewModel
+                                      .studentNumTextController.text),
+                                  context: context,
+                                );
+                              }
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: kMainColor,
@@ -168,7 +195,9 @@ class _SignupViewState extends ConsumerState<SignupView> {
                             ),
                           ),
                         ),
-                      if (memberViewModel.state is MemberStateLoading)
+                      if ((memberViewModel.state is MemberStateLoading) ||
+                          (memberInfoViewModel.state
+                              is MemeberInfoStateLoading))
                         SizedBox(
                           width: ResponsiveData.kIsMobile
                               ? ResponsiveSize.M(76)
@@ -189,6 +218,33 @@ class _SignupViewState extends ConsumerState<SignupView> {
       ),
     );
   }
+}
+
+Widget infoRow(String key, String value) {
+  final fontSize = ResponsiveData.kIsMobile
+      ? ResponsiveSize.M(kWTextLargeSize)
+      : kWTextSmallSize;
+
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      SizedBox(
+        width: ResponsiveData.kIsMobile ? ResponsiveSize.M(180) : 110,
+        child: Text(
+          key,
+          style: kTextMainStyle.copyWith(
+            fontSize: fontSize,
+          ),
+        ),
+      ),
+      SizedBox(width: kPaddingMiddleSize),
+      Expanded(
+          child: Text(
+        value,
+        style: kTextMainStyle.copyWith(fontSize: fontSize),
+      ))
+    ],
+  );
 }
 
 class _SignupTitle extends StatelessWidget {

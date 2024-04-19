@@ -5,31 +5,37 @@ class SnackBarUtil {
   static GlobalKey<ScaffoldMessengerState> key =
       GlobalKey<ScaffoldMessengerState>();
 
-  static void showError(String message) {
+  static void showError(String message, {TextStyle? textStyle}) {
     key.currentState!
       ..hideCurrentSnackBar()
-      ..showSnackBar(drawSnackBar(message, kPointColor));
+      ..showSnackBar(drawSnackBar(message, kPointColor, textStyle: textStyle));
   }
 
-  static void showMessage(String message) {
+  static void showMessage(String message, {TextStyle? textStyle}) {
     key.currentState!
       ..hideCurrentSnackBar()
-      ..showSnackBar(drawSnackBar(message, kSubColor));
+      ..showSnackBar(drawSnackBar(message, kSubColor, textStyle: textStyle));
   }
 
-  static void showSuccess(String message) {
+  static void showSuccess(String message, {TextStyle? textStyle}) {
     key.currentState!
       ..hideCurrentSnackBar()
-      ..showSnackBar(drawSnackBar(message, kMainColor));
+      ..showSnackBar(drawSnackBar(message, kMainColor, textStyle: textStyle));
   }
 
-  static SnackBar drawSnackBar(String message, Color color) {
+  static SnackBar drawSnackBar(String message, Color color,
+      {TextStyle? textStyle}) {
     return SnackBar(
       backgroundColor: color,
       content: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(message, textAlign: TextAlign.center, softWrap: false),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            softWrap: false,
+            style: textStyle,
+          ),
         ],
       ),
       behavior: SnackBarBehavior.floating,

@@ -4,7 +4,10 @@ import 'package:flutter_client_front/auth/model/repository/auth_repository.dart'
 import 'package:flutter_client_front/auth/model/state/auth_state.dart';
 import 'package:flutter_client_front/common/env/env.dart';
 import 'package:flutter_client_front/common/local_storage/local_storage.dart';
+import 'package:flutter_client_front/signup/model/entity/member_info_entity.dart';
+import 'package:flutter_client_front/signup/model/repository/member_info_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:universal_html/html.dart';
 
 final authServiceProvider =
     StateNotifierProvider<AuthService, AuthState>((ref) {
@@ -17,8 +20,8 @@ class AuthService extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
   final LocalStorage storage;
 
-  AuthService(this.authRepository, this.storage) : super(AuthStateLoading()) {
-    _getUserInfo();
+  AuthService(this.authRepository, this.storage) : super(AuthStateNone()) {
+    //  _getUserInfo();
   }
 
   Future login({required String id, required String password}) async {
@@ -43,6 +46,8 @@ class AuthService extends StateNotifier<AuthState> {
     }
   }
 
+  Future test() async {}
+
   Future logout() async {
     state = AuthStateLoading();
     await _removeToken();
@@ -61,7 +66,7 @@ class AuthService extends StateNotifier<AuthState> {
     }
 
     try {
-      final data = await authRepository.getUserInfo();
+      final data = await authRepository.getMemberInfo();
       state = AuthStateSuccess(data);
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 400) {

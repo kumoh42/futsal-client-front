@@ -20,8 +20,6 @@ class _MemberRepository implements MemberRepository {
 
   @override
   Future<void> signup(MemberEntity memberEntity) async {
-    print(memberEntity.toJson());
-
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

@@ -126,7 +126,7 @@ class _DefaultLayoutAppBar extends ConsumerWidget
                     ),
                     child: Text(
                       viewModel.state is AuthStateSuccess
-                          ? "반갑습니다 김정현님!"
+                          ? "반갑습니다 ${((viewModel.state as AuthStateSuccess).data.user_name)}님!"
                           : "풋살장 사용자 페이지",
                       style: kTextMainStyle.copyWith(fontSize: kTextTitleSize),
                       textAlign:
