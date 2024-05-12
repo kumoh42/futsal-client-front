@@ -170,7 +170,7 @@ class _ReservationStateItem2State extends ConsumerState<ReservationStateItem2> {
                                         left: kPaddingLargeSize,
                                         right: kPaddingLargeSize),
                                     child: Text(
-                                      "예약 취소 날짜: ${regDateFormatK.format(widget.entity.date)} ${widget.entity.time.toString().padLeft(2, "0")}시~${(widget.entity.time + 2).toString().padLeft(2, "0")}시\n정말 취소 하시겠습니까?",
+                                      "취소 날짜: ${regDateFormatK.format(widget.entity.date)} ${widget.entity.time.toString().padLeft(2, "0")}시~${(widget.entity.time + 2).toString().padLeft(2, "0")}시\n정말 취소 하시겠습니까?",
                                       style: kTextMainStyle.copyWith(
                                         fontSize: kTextMiddleSize,
                                       ),

@@ -21,6 +21,8 @@ class ReservationMakingViewModel extends ChangeNotifier {
         state = next;
         if (state is ErrorState) {
           SnackBarUtil.showError((state as ErrorState).message);
+        } else if (state is SuccessState) {
+          SnackBarUtil.showSuccess((state as SuccessState).data.toString());
         }
         notifyListeners();
       }

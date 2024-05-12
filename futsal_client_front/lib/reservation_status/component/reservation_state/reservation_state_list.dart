@@ -11,6 +11,7 @@ import 'package:flutter_client_front/reservation_status/component/designed_butto
 import 'package:flutter_client_front/reservation_status/component/reservation_state/reservation_state_item_2.dart';
 import 'package:flutter_client_front/reservation_status/model/entity/reservation_entity.dart';
 import 'package:flutter_client_front/reservation_status/model/state/reservation_list_state.dart';
+import 'package:flutter_client_front/reservation_status/model/state/reservation_making_state.dart';
 import 'package:flutter_client_front/reservation_status/type/reservation_type.dart';
 import 'package:flutter_client_front/reservation_status/viewmodel/reservation_making_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -112,32 +113,40 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                                       builder: (context) {
                                         return AlertDialog(
                                           actions: [
-                                            DesignedButton(
-                                              color: kPointColor,
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              icon: Icons.close,
-                                              text: "취소",
-                                            ),
-                                            DesignedButton(
-                                              onPressed: () async {
-                                                if ((viewmodel.state
-                                                    is AuthStateSuccess)) {
-                                                  await reservationViewModel
-                                                      .makeReservation(
-                                                    date: regDateFormat
-                                                        .format(e.value.date),
-                                                    time: e.value.time,
-                                                  );
+                                            if (reservationViewModel.state
+                                                is ReservationMakingStateLoading)
+                                              const CircularProgressIndicator(),
+                                            if (reservationViewModel.state
+                                                is! ReservationMakingStateLoading)
+                                              DesignedButton(
+                                                color: kPointColor,
+                                                onPressed: () {
                                                   Navigator.of(context).pop();
-                                                  SnackBarUtil.showSuccess(
-                                                      "예약을 성공했습니다.");
-                                                }
-                                              },
-                                              icon: Icons.check,
-                                              text: "확인",
-                                            ),
+                                                },
+                                                icon: Icons.close,
+                                                text: "취소",
+                                              ),
+                                            if (reservationViewModel.state
+                                                is! ReservationMakingStateLoading)
+                                              DesignedButton(
+                                                onPressed: () async {
+                                                  if ((viewmodel.state
+                                                      is AuthStateSuccess)) {
+                                                    Navigator.of(context).pop();
+                                                    await reservationViewModel
+                                                        .makeReservation(
+                                                      date: regDateFormat
+                                                          .format(e.value.date),
+                                                      time: e.value.time,
+                                                    );
+
+                                                    // SnackBarUtil.showSuccess(
+                                                    //     "예약을 성공했습니다.");
+                                                  }
+                                                },
+                                                icon: Icons.check,
+                                                text: "확인",
+                                              ),
                                           ],
                                           title: Text(
                                             "예약 확인",
@@ -184,11 +193,12 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                               },
                               onCancelPressed: () async {
                                 if ((viewmodel.state is AuthStateSuccess)) {
+                                  Navigator.of(context).pop();
+
                                   await reservationViewModel.calcelReservation(
                                     date: regDateFormat.format(e.value.date),
                                     time: e.value.time,
                                   );
-                                  Navigator.of(context).pop();
                                   SnackBarUtil.showSuccess("예약을 취소했습니다.");
                                 }
                               },
