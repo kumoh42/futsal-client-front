@@ -158,7 +158,7 @@ class _DefaultLayoutAppBar extends ConsumerWidget
                           );
                         },
                         child: Text(
-                          "로그인",
+                          "로그아웃",
                           style: kTextMainStyle.copyWith(
                             fontSize: kTextLargeSize,
                             fontWeight: FontWeight.w900,

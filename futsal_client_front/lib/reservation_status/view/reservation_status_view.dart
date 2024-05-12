@@ -10,6 +10,7 @@ import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/common/styles/sizes.dart';
 import 'package:flutter_client_front/common/styles/text_styles.dart';
 import 'package:flutter_client_front/common/utils/date_utils.dart';
+import 'package:flutter_client_front/geolocate.dart';
 import 'package:flutter_client_front/reservation_status/component/custom_table_calendar.dart';
 import 'package:flutter_client_front/reservation_status/component/reservation_state/reservation_state_list.dart';
 import 'package:flutter_client_front/reservation_status/model/state/reservation_list_state.dart';
@@ -65,8 +66,47 @@ class ReservationStatusView extends ConsumerWidget {
                             child: IconButton(
                                 iconSize: (kIconLargeSize),
                                 onPressed: () {
-                                  viewmodel.getReservationStatusList(
-                                      force: true);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text(
+                                        '사용자 위치 확인',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            // 취소 버튼을 눌렀을 때 수행할 작업을 여기에 추가
+                                            Navigator.of(context)
+                                                .pop(); // AlertDialog를 닫고 false를 반환
+                                          },
+                                          child: const Text(
+                                            '취소',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            // 확인 버튼을 눌렀을 때 수행할 작업을 여기에 추가
+                                            Navigator.of(context)
+                                                .pop(); // AlertDialog를 닫고 true를 반환
+                                          },
+                                          child: const Text(
+                                            '확인',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      ],
+                                      content: SizedBox(
+                                        width: kIconLargeSize * 20,
+                                        height: kIconLargeSize * 20,
+                                        child: const MapWithMarkerAndCircle(),
+                                      ),
+                                    ),
+                                  );
                                 },
                                 icon: const Icon(Icons.refresh_sharp)),
                           ),
@@ -100,74 +140,74 @@ class ReservationStatusView extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (loginViewModel.state is AuthStateSuccess)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "동아리: ${findKeyByValue((loginViewModel.state as AuthStateSuccess).data.circle_srl, circleListWithId)}",
-                      style: kTextMainStyle.copyWith(
-                        fontSize: kTextLargeSize,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      "학과: ${findKeyByValue((loginViewModel.state as AuthStateSuccess).data.major_srl, majorListWithId)}",
-                      style: kTextMainStyle.copyWith(
-                        fontSize: kTextLargeSize,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      "사용 승인 여부: ${((loginViewModel.state as AuthStateSuccess).data.is_denied == "N") ? "승인O" : "승인X"}",
-                      style: kTextMainStyle.copyWith(
-                        fontSize: kTextLargeSize,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              if (loginViewModel.state is! AuthStateSuccess)
-                Text.rich(
-                  TextSpan(
-                    text: '풋살장 예약을 하려면 ',
+              //  if (loginViewModel.state is AuthStateSuccess)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "동아리: SOFT",
                     style: kTextMainStyle.copyWith(
                       fontSize: kTextLargeSize,
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '로그인',
-                        style: const TextStyle(
-                          color: kMainColor,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const Dialog(
-                                  surfaceTintColor: Colors.transparent,
-                                  backgroundColor: kBackgroundMainColor,
-                                  child: SizedBox(
-                                    width: 500,
-                                    height: 500,
-                                    child: LoginView(),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                      ),
-                      TextSpan(
-                        text: '이 필요합니다!',
-                        style: kTextMainStyle.copyWith(
-                          fontSize: kTextLargeSize,
-                        ),
-                      ),
-                    ],
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                  Text(
+                    "학과: 컴퓨터소프트웨어공학과",
+                    style: kTextMainStyle.copyWith(
+                      fontSize: kTextLargeSize,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    "사용 승인 여부: 승인 O",
+                    style: kTextMainStyle.copyWith(
+                      fontSize: kTextLargeSize,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+              // if (loginViewModel.state is! AuthStateSuccess)
+              //   Text.rich(
+              //     TextSpan(
+              //       text: '풋살장 예약을 하려면 ',
+              //       style: kTextMainStyle.copyWith(
+              //         fontSize: kTextLargeSize,
+              //       ),
+              //       children: <TextSpan>[
+              //         TextSpan(
+              //           text: '로그인',
+              //           style: const TextStyle(
+              //             color: kMainColor,
+              //           ),
+              //           recognizer: TapGestureRecognizer()
+              //             ..onTap = () {
+              //               showDialog(
+              //                 context: context,
+              //                 builder: (BuildContext context) {
+              //                   return const Dialog(
+              //                     surfaceTintColor: Colors.transparent,
+              //                     backgroundColor: kBackgroundMainColor,
+              //                     child: SizedBox(
+              //                       width: 500,
+              //                       height: 500,
+              //                       child: LoginView(),
+              //                     ),
+              //                   );
+              //                 },
+              //               );
+              //             },
+              //         ),
+              //         TextSpan(
+              //           text: '이 필요합니다!',
+              //           style: kTextMainStyle.copyWith(
+              //             fontSize: kTextLargeSize,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //     textAlign: TextAlign.center,
+              //   ),
             ],
           ),
         ),

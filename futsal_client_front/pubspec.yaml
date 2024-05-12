@@ -59,11 +59,17 @@ dependencies:
   # Icon Badges
   badges: ^3.1.2
 
+  geolocator_web: ^3.0.0
+  google_maps_flutter: 2.5.3
+  google_maps_flutter_platform_interface: 2.4.0
+  geolocator: ^11.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  webview_flutter: ^2.0.13
 
   # REST Api
   build_runner:
