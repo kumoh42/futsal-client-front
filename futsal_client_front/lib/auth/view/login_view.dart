@@ -24,6 +24,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(loginViewModelProvider);
+
+    void attemptLogin() async {
+      await viewModel.login();
+      if (viewModel.state is AuthStateSuccess) {
+        Navigator.of(context).pop();
+      }
+    }
+
     return Center(
       child: Container(
         decoration: BoxDecoration(
@@ -63,6 +71,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     hintText: '아이디를 입력해주세요',
                     controller: viewModel.idTextController,
                     validator: validateId,
+                    onFieldSubmitted: (value) => attemptLogin(),
                   ),
                   const SizedBox(height: kWPaddingLargeSize),
                   CustomTextFormField(
@@ -71,6 +80,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     keyboardType: TextInputType.visiblePassword,
                     controller: viewModel.passwordTextController,
                     validator: validatePassword,
+                    onFieldSubmitted: (value) => attemptLogin(),
                   ),
                   const SizedBox(height: kWPaddingXLargeSize),
                   if (viewModel.state is LoadingState)
@@ -112,12 +122,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () async {
-                            await viewModel.login();
-                            if (viewModel.state is AuthStateSuccess) {
-                              Navigator.of(context).pop();
-                            }
-                          },
+                          onPressed: attemptLogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: kMainColor,
                             minimumSize: Size(

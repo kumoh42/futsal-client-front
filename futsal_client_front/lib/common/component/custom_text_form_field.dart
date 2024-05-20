@@ -19,7 +19,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? textStyle;
   late final double contentPadding;
   final Color? backgroundColor;
-
+  final void Function(dynamic value)? onFieldSubmitted;
   CustomTextFormField({
     Key? key,
     this.labelText,
@@ -31,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     this.textStyle,
     double? contentPadding,
     this.backgroundColor,
+    this.onFieldSubmitted,
   }) : super(key: key) {
     this.contentPadding = contentPadding ?? kWPaddingMiddleSize;
   }
@@ -65,6 +66,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           SizedBox(height: contentPadding),
           TextFormField(
+            onFieldSubmitted: onFieldSubmitted,
             controller: controller,
             validator: validator,
             cursorColor: kTextMainColor,
