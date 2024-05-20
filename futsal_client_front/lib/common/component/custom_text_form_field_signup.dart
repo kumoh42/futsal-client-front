@@ -57,12 +57,11 @@ class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
               size: kWIconSmallSize,
               color: kSubColor,
             ),
-          if (widget.prefixIcon != null) const SizedBox(width: kWPaddingSmallSize),
+          if (widget.prefixIcon != null)
+            const SizedBox(width: kWPaddingSmallSize),
           if (widget.labelText != null)
-            Container(
-              width: ResponsiveData.kIsMobile
-                  ? ResponsiveSize.M(180)
-                  : 110,
+            SizedBox(
+              width: ResponsiveData.kIsMobile ? ResponsiveSize.M(180) : 110,
               child: Text(
                 widget.labelText!,
                 style: kTextMainStyle.copyWith(fontSize: fontSize),
@@ -76,7 +75,7 @@ class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
                 setState(() {
                   _errorMessage = widget.validator!(value);
                 });
-                return null;
+                return widget.validator!(value);
               },
               cursorColor: kTextMainColor,
               keyboardType: widget.keyboardType,
@@ -91,10 +90,11 @@ class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
                 isDense: true,
                 contentPadding: EdgeInsets.only(bottom: widget.contentPadding),
                 hintText: widget.hintText,
-                border: UnderlineInputBorder(borderSide: BorderSide(width: 1.0.w)),
+                border:
+                    UnderlineInputBorder(borderSide: BorderSide(width: 1.0.w)),
                 hintStyle: widget.textStyle?.copyWith(
-                  color: kTextMainColor.withOpacity(0.5),
-                ) ??
+                      color: kTextMainColor.withOpacity(0.5),
+                    ) ??
                     kTextMainStyle.copyWith(
                       fontSize: fontSize,
                       color: kTextMainColor.withOpacity(0.5),
