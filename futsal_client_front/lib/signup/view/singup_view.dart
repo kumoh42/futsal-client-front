@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_client_front/auth/viewmodel/login_viewmodel.dart';
 import 'package:flutter_client_front/common/component/custum_dropdownbutton_form_feld.dart';
 import 'package:flutter_client_front/common/styles/colors.dart';
 import 'package:flutter_client_front/signup/model/state/member_info_state.dart';
@@ -40,6 +39,15 @@ class _SignupViewState extends ConsumerState<SignupView> {
     final memberViewModel = ref.watch(memberViewModelProvider);
     final memberInfoViewModel = ref.watch(memberInfoViewModelProvider);
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: kBackgroundMainColor,
+      ),
       body: SingleChildScrollView(
         child: Container(
           color: kBackgroundMainColor,
