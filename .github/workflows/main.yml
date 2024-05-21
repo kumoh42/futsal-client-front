@@ -25,6 +25,7 @@ jobs:
           echo "REFRESH_TOKEN_KEY=${{ secrets.REFRESH_TOKEN_KEY }}" >> .env
           cat .env
       - run: flutter pub get
+      - run: flutter pub run build_runner build
       - run: flutter build web --release
       - name: Upload build file # job 간의 파일 이동을 위해 file upload
         uses: actions/upload-artifact@v3
