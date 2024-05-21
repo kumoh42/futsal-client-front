@@ -1,7 +1,7 @@
 name: Deploy Dev
 on:
   push: # 다른 action에 트리거가 필요하면 수정
-    branches: ["develop"] # 다른 브랜치에 트리거가 필요하면 수정
+    branches: ["test"] # 다른 브랜치에 트리거가 필요하면 수정
 
 jobs:
   build: # flutter web 프로젝트 build
