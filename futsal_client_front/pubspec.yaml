@@ -77,3 +77,6 @@ flutter:
   assets:
     - assets/image/
     - .env
+
+dependency_overrides:
+  web: 0.5.0 # latest version as of now
