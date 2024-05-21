@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: web-artifact
-          path: flutter_front/build/web # working-directory와 상관 없이 절대 경로 작성 필요
+          path: futsal_client_front/build/web # working-directory와 상관 없이 절대 경로 작성 필요
           if-no-files-found: error
   deploy: # build된 프로젝트 aws s3에 배포
     name: Deploy Web to Aws S3
