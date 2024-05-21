@@ -48,7 +48,7 @@ jobs:
           name: web-artifact
           path: build/web
       - name: Sync Bucket # Aws S3 Bucket에 build 파일 업로드, 삭제된 파일 제거
-        run: aws s3 sync build/web ${{secrets.AWS_BUCKET_NAME}} --region ap-northeast-2 --delete
+        run: aws s3 sync build/web ${{secrets.AWS_BUCKET_NAME}} --region eu-north-1 --delete
       - name: Invalidate cache CloudFront # CloudFront Cache 삭제를 통한 배포 사항 즉각 반영
         run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}} --paths "/*"
         continue-on-error: true
