@@ -140,8 +140,7 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                                                       time: e.value.time,
                                                     );
 
-                                                    // SnackBarUtil.showSuccess(
-                                                    //     "예약을 성공했습니다.");
+                                                    // SnackBarUtil.showSuccess("예약을 성공했습니다.");
                                                   }
                                                 },
                                                 icon: Icons.check,
@@ -156,15 +155,17 @@ class _ReservationStateListState extends ConsumerState<ReservationStateList> {
                                           ),
                                           content: Padding(
                                             padding: EdgeInsets.only(
-                                                top: kPaddingLargeSize,
-                                                left: kPaddingLargeSize,
-                                                right: kPaddingLargeSize),
-                                            child: Text(
-                                              "예약 날짜: ${regDateFormatK.format(e.value.date)} ${e.value.time.toString().padLeft(2, "0")}시~${(e.value.time + 2).toString().padLeft(2, "0")}시\n정말 예약 하시겠습니까?",
-                                              style: kTextMainStyle.copyWith(
-                                                fontSize: kTextMiddleSize,
+                                              top: kPaddingLargeSize,
+                                            ),
+                                            child: SizedBox(
+                                              width: double.infinity,
+                                              child: Text(
+                                                "예약 날짜: ${regDateFormatK.format(e.value.date)} ${e.value.time.toString().padLeft(2, "0")}시~${(e.value.time + 2).toString().padLeft(2, "0")}시\n정말 예약 하시겠습니까?",
+                                                style: kTextMainStyle.copyWith(
+                                                  fontSize: kTextMiddleSize + 1,
+                                                ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         );
