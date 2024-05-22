@@ -42,8 +42,10 @@ class MemberInfoViewModel extends ChangeNotifier {
           phoneNumber: phoneNumber,
           sNumber: sNumber,
         ));
-    Navigator.of(context).pop();
-    SnackBarUtil.showSuccess("정보를 수정하였습니다. 다시 로그인 해주세요");
-    ref.read(authProvider).logout();
+    if (state is MemberInfoStateSuccess) {
+      Navigator.of(context).pop();
+      SnackBarUtil.showSuccess("정보를 수정하였습니다. 다시 로그인 해주세요");
+      ref.read(authProvider).logout();
+    }
   }
 }

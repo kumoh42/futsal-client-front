@@ -54,6 +54,20 @@ class MemberViewModel extends ChangeNotifier {
     }
   }
 
+  void reset() {
+    idTextController.clear();
+    passwordTextController.clear();
+    nameTextController.clear();
+    passwordCheckTextController.clear();
+    studentNumTextController.clear();
+    phoneTextController.clear();
+    majorTextController.clear();
+    circleTextController.clear();
+    selectedMajor = null;
+    selectedCircle = null;
+    notifyListeners();
+  }
+
   Future<void> signup(BuildContext context) async {
     MemberEntity member = MemberEntity(
       name: nameTextController.text,
@@ -67,6 +81,7 @@ class MemberViewModel extends ChangeNotifier {
     await ref.read(memberServiceProvider.notifier).signup(memberEntity: member);
     if (state is MemberStateSuccess) {
       Navigator.of(context).pop();
+      SnackBarUtil.showSuccess("회원가입을 완료했습니다.");
     }
   }
 }

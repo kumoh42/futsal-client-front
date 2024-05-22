@@ -28,6 +28,8 @@ class _SignupViewState extends ConsumerState<SignupView> {
   @override
   void initState() {
     super.initState();
+    Future(() => ref.read(memberViewModelProvider.notifier).reset());
+
     if (!widget.isSignup) {
       Future(() => ref.read(memberViewModelProvider.notifier).getUserInfo());
     }
@@ -38,6 +40,7 @@ class _SignupViewState extends ConsumerState<SignupView> {
   Widget build(BuildContext context) {
     final memberViewModel = ref.watch(memberViewModelProvider);
     final memberInfoViewModel = ref.watch(memberInfoViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
