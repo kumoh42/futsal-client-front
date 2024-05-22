@@ -34,12 +34,15 @@ class LoginViewModel extends ChangeNotifier {
     });
   }
 
-  Future login() async {
+  Future login(BuildContext context) async {
     if (!(loginKey.currentState?.validate() ?? false)) return;
     await ref.read(authServiceProvider.notifier).login(
           id: idTextController.text,
           password: passwordTextController.text,
         );
+    if (state is AuthStateSuccess) {
+      Navigator.of(context).pop();
+    }
   }
 
   Future logout() async {
