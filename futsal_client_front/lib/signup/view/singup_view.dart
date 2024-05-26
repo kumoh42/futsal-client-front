@@ -159,6 +159,12 @@ class _SignupViewState extends ConsumerState<SignupView> {
                         validator: validatePhoneNumber,
                       ),
                       const SizedBox(height: kWPaddingXLargeSize),
+                      if (!widget.isSignup)
+                        const Text(
+                          "정보를 수정하면 다시 로그인을 해야합니다.",
+                          style: kTextMainStyle,
+                        ),
+                      const SizedBox(height: kWPaddingXLargeSize),
                       if ((memberViewModel.state is! MemberStateLoading) &&
                           (memberInfoViewModel.state
                               is! MemeberInfoStateLoading))

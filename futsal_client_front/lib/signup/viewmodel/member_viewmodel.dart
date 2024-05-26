@@ -69,6 +69,14 @@ class MemberViewModel extends ChangeNotifier {
   }
 
   Future<void> signup(BuildContext context) async {
+    if (selectedMajor == null) {
+      SnackBarUtil.showError("전공을 선택해주세요");
+      return;
+    }
+    if (selectedCircle == null) {
+      SnackBarUtil.showError("동아리를 선택해주세요");
+      return;
+    }
     MemberEntity member = MemberEntity(
       name: nameTextController.text,
       id: idTextController.text,

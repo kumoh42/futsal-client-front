@@ -1,4 +1,3 @@
-
 final RegExp passwordRegex =
     RegExp(r'^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])(?=.*[0-9])\S{8,20}$');
 
@@ -24,8 +23,7 @@ String? validatePasswordCheck(String? value) {
     return "값을 입력해 주세요.";
   } else if (!passwordRegex.hasMatch(value)) {
     return "비밀번호 양식이 옳지 않습니다.";
-  }
-  else {
+  } else {
     return null;
   }
 }
@@ -46,6 +44,10 @@ String? validateId(String? value) {
   if (value == null) return null;
   if (value.isEmpty) {
     return "값을 입력해 주세요.";
+  } else if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
+    return "아이디는 영어 또는 숫자만 입력해 주세요.";
+  } else if (value.length < 6) {
+    return "아이디는 6자리 이상 입력해 주세요.";
   } else {
     return null;
   }
@@ -55,6 +57,8 @@ String? validateMessage(String? value) {
   if (value == null) return null;
   if (value.isEmpty) {
     return "값을 입력해 주세요.";
+  } else if (value.isEmpty || value.length > 20) {
+    return "글자는 1자 이상 20자 이하로 입력해 주세요.";
   } else {
     return null;
   }
@@ -66,6 +70,8 @@ String? validateNumeric(String? value) {
     return "값을 입력해 주세요.";
   } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
     return "숫자만 입력해 주세요.";
+  } else if (value.length != 8) {
+    return "학번은 숫자 8자리로 입력해 주세요.";
   } else {
     return null;
   }

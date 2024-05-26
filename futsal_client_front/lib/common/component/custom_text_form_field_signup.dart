@@ -39,6 +39,8 @@ class CustomTextFormFieldSignup extends StatefulWidget {
 class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
   String? _errorMessage;
 
+  final FocusNode _focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final fontSize = ResponsiveData.kIsMobile
@@ -69,40 +71,52 @@ class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
             ),
           SizedBox(width: widget.contentPadding),
           Expanded(
-            child: TextFormField(
-              controller: widget.controller,
-              validator: (value) {
-                setState(() {
-                  _errorMessage = widget.validator!(value);
-                });
-                return widget.validator!(value);
+            child: RawKeyboardListener(
+              focusNode: _focusNode,
+              onKey: (RawKeyEvent event) {
+                if (event is RawKeyDownEvent) {
+                  if (event.logicalKey == LogicalKeyboardKey.tab) {
+                    return;
+                  }
+                }
               },
-              cursorColor: kTextMainColor,
-              keyboardType: widget.keyboardType,
-              obscureText: widget.keyboardType == TextInputType.visiblePassword,
-              style: widget.textStyle ??
-                  kTextMainStyle.copyWith(fontSize: fontSize),
-              inputFormatters: [
-                FilteringTextInputFormatter.deny(RegExp(r'\s')),
-              ],
-              decoration: InputDecoration(
-                errorText: _errorMessage,
-                isDense: true,
-                contentPadding: EdgeInsets.only(bottom: widget.contentPadding),
-                hintText: widget.hintText,
-                border:
-                    UnderlineInputBorder(borderSide: BorderSide(width: 1.0.w)),
-                hintStyle: widget.textStyle?.copyWith(
-                      color: kTextMainColor.withOpacity(0.5),
-                    ) ??
-                    kTextMainStyle.copyWith(
-                      fontSize: fontSize,
-                      color: kTextMainColor.withOpacity(0.5),
-                    ),
-                filled: true,
-                fillColor: widget.backgroundColor ?? kBackgroundMainColor,
-                errorStyle: kTextMainStyle.copyWith(
-                  color: kPointColor, // 에러 텍스트의 색상을 설정
+              child: TextFormField(
+                controller: widget.controller,
+                validator: (value) {
+                  setState(() {
+                    _errorMessage = widget.validator!(value);
+                  });
+                  return widget.validator!(value);
+                },
+                cursorColor: kTextMainColor,
+                keyboardType: widget.keyboardType,
+                obscureText:
+                    widget.keyboardType == TextInputType.visiblePassword,
+                style: widget.textStyle ??
+                    kTextMainStyle.copyWith(fontSize: fontSize),
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                ],
+                decoration: InputDecoration(
+                  errorText: _errorMessage,
+                  isDense: true,
+                  contentPadding:
+                      EdgeInsets.only(bottom: widget.contentPadding),
+                  hintText: widget.hintText,
+                  border: UnderlineInputBorder(
+                      borderSide: BorderSide(width: 1.0.w)),
+                  hintStyle: widget.textStyle?.copyWith(
+                        color: kTextMainColor.withOpacity(0.5),
+                      ) ??
+                      kTextMainStyle.copyWith(
+                        fontSize: fontSize,
+                        color: kTextMainColor.withOpacity(0.5),
+                      ),
+                  filled: true,
+                  fillColor: widget.backgroundColor ?? kBackgroundMainColor,
+                  errorStyle: kTextMainStyle.copyWith(
+                    color: kPointColor, // 에러 텍스트의 색상을 설정
+                  ),
                 ),
               ),
             ),
@@ -110,5 +124,11 @@ class _CustomTextFormFieldSignupState extends State<CustomTextFormFieldSignup> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 }
