@@ -93,7 +93,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                             children: [
                               CustomTextButton(
                                 onPressed: () {
-                                  // TODO 관리자에게 문의
+                                  myDialog(context);
                                 },
                                 text: '관리자에게 문의하기',
                                 textAlign: TextAlign.left,
@@ -183,3 +183,38 @@ class _Title extends StatelessWidget {
     );
   }
 }
+void myDialog(context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        child: SizedBox(
+          height: 250, // 원하는 높이로 설정 (예: 250)
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  '사용문의: 010-0000-0000\n기술문의: 010-9252-7579',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
