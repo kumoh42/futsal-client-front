@@ -41,7 +41,7 @@ const Map<String, int> majorListWithId = {
   "메디컬IT융합공학과": 29,
   "산업공학부": 22,
   "신소재공학부": 23,
-  "응용수학과": 31,
+  "수리빅데이터학과": 31,
   "자치단체": 35,
   "전자공학부": 20,
   "정동아리": 17,
@@ -49,6 +49,7 @@ const Map<String, int> majorListWithId = {
   "컴퓨터소프트웨어공학과": 27,
   "토목공학과": 25,
   "화학소재융합공학부": 24,
+  "인공지능공학과": 37,
 };
 
 String findKeyByValue(int value, Map<String, int> map) {
