@@ -1,1 +1,1 @@
-readme
+ip변경
