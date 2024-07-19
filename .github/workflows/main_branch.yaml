@@ -1,0 +1,54 @@
+name: Deploy Dev
+on:
+  push: # 다른 action에 트리거가 필요하면 수정
+    branches: ["main"] # 다른 브랜치에 트리거가 필요하면 수정
+
+jobs:
+  build: # flutter web 프로젝트 build
+    name: Build Web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./futsal_client_front # 프로젝트 폴더안에 .git 폴더가 없는 경우 사용, 만약 프로젝트 폴더 안에 .git 폴더가 있으면 삭제, 프로젝트 이름에 따라 설정
+    steps:
+      - uses: actions/checkout@v3 # 현재 작업 중인 레포지토리의 소스 코드와 파일 가져오기
+      - uses: subosito/flutter-action@v2 # flutter build 환경 구축(ex. sdk 설치 등)
+        with:
+          channel: "stable"
+      - run: flutter config --enable-web # web으로 build가 가능한가 확인
+      - name: Setting .env # .env 파일 생성, 없으면 삭제
+        run: |
+          echo "ACCESS_TOKEN_KEY=${{ secrets.ACCESS_TOKEN_KEY }}" >> .env
+          echo "IP=${{ secrets.IP }}" >> .env
+          echo "KUMOH42_FIND_ACCOUNT=${{ secrets.KUMOH42_FIND_ACCOUNT }}" >> .env
+          echo "KUMOH42_REGISTER=${{ secrets.KUMOH42_REGISTER }}" >> .env
+          echo "REFRESH_TOKEN_KEY=${{ secrets.REFRESH_TOKEN_KEY }}" >> .env
+          cat .env
+      - run: flutter pub get
+      - run: flutter pub run build_runner build
+      - run: flutter build web --release
+      - name: Upload build file # job 간의 파일 이동을 위해 file upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-artifact
+          path: futsal_client_front/build/web # working-directory와 상관 없이 절대 경로 작성 필요
+          if-no-files-found: error
+  deploy: # build된 프로젝트 aws s3에 배포
+    name: Deploy Web to Aws S3
+    runs-on: ubuntu-latest
+    needs: build # build job 실행 후 동작
+    env:
+      AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID_MAIN}} # AWS IAM Access Key ID
+      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY_MAIN}} # AWS IAM Secret Access Key
+      AWS_EC2_METADATA_DISABLED: true
+    steps:
+      - name: Download build file # build job에서 upload한 build 파일 다운로드
+        uses: actions/download-artifact@v3
+        with:
+          name: web-artifact
+          path: build/web
+      - name: Sync Bucket # Aws S3 Bucket에 build 파일 업로드, 삭제된 파일 제거
+        run: aws s3 sync build/web ${{secrets.AWS_BUCKET_NAME_MAIN}} --region eu-north-1 --delete
+      - name: Invalidate cache CloudFront # CloudFront Cache 삭제를 통한 배포 사항 즉각 반영
+        run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRICUTION_ID}} --paths "/*"
+        continue-on-error: true
