@@ -183,6 +183,7 @@ class _Title extends StatelessWidget {
     );
   }
 }
+
 void myDialog(context) {
   showDialog(
     context: context,
@@ -196,7 +197,7 @@ void myDialog(context) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  '사용문의: 010-0000-0000\n기술문의: 010-9252-7579',
+                  '사용문의: 010-3890-4970\n기술문의: 010-9252-7579',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -216,5 +217,3 @@ void myDialog(context) {
     },
   );
 }
-
-
