@@ -19,7 +19,7 @@ jobs:
       - name: Setting .env # .env 파일 생성, 없으면 삭제
         run: |
           echo "ACCESS_TOKEN_KEY=${{ secrets.ACCESS_TOKEN_KEY }}" >> .env
-          echo "IP=${{ secrets.IP }}" >> .env
+          echo "IP=${{ secrets.TEST_IP }}" >> .env
           echo "KUMOH42_FIND_ACCOUNT=${{ secrets.KUMOH42_FIND_ACCOUNT }}" >> .env
           echo "KUMOH42_REGISTER=${{ secrets.KUMOH42_REGISTER }}" >> .env
           echo "REFRESH_TOKEN_KEY=${{ secrets.REFRESH_TOKEN_KEY }}" >> .env
