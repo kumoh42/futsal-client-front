@@ -53,6 +53,7 @@ https://futsal-kumoh.kro.kr/
 - Responsive
   - flutter_screenutil: ^5.9.0
   - auto_size_text: ^3.0.0
+    
 - Icon Badges
   - badges: ^3.1.2
 
