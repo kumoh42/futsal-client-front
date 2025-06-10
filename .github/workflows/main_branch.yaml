@@ -28,7 +28,7 @@ jobs:
       - run: flutter pub run build_runner build
       - run: flutter build web --release
       - name: Upload build file # job 간의 파일 이동을 위해 file upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: web-artifact
           path: futsal_client_front/build/web # working-directory와 상관 없이 절대 경로 작성 필요
@@ -43,7 +43,7 @@ jobs:
       AWS_EC2_METADATA_DISABLED: true
     steps:
       - name: Download build file # build job에서 upload한 build 파일 다운로드
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: web-artifact
           path: build/web
