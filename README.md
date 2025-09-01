@@ -62,3 +62,6 @@ https://futsal-kumoh.kro.kr/
 
 - 사용자 로그인/회원가입
 - 풋살장 예약 및 취소
+
+
+<!-- Security scan triggered at 2025-09-01 23:07:42 -->
