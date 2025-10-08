@@ -71,3 +71,5 @@ https://futsal-kumoh.kro.kr/
 <!-- Security scan triggered at 2025-09-09 05:22:36 -->
 
 <!-- Security scan triggered at 2025-09-28 15:25:36 -->
+
+<!-- Security scan triggered at 2025-10-08 09:02:55 -->
